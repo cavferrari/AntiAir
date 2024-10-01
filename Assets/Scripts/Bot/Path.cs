@@ -1,23 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    public float curveRadius = 50f;
+    public float entryRunCurveRadius = 50f;
+    public float endRunCurveRadius = 100f;
+    public float returnCurveRadius = 100f;
     public int curveNumberPoints = 15;
     public float distanceEntryRun = 150f;
     public float distanceEndRun = 50f;
-    public float distanceEscape = 200f;
-    public int orientation;
+    public float distanceEscapeFromBorder = 10f;
+    public float distanceEscapeVertical = 170f;
+
 
     private float horizontalBorder, topBorder;
-    private Vector3 startPosition, returnPosition, finishPosition, entryRunPosition, endRunPosition, escapePosition;
+    private Vector3 returnPosition, finishPosition, entryRunPosition, endRunPosition, escapePosition;
     private Vector3 entryRunRollPosition, endRunRollPosition;
-    private Vector3 lineBA, lineCB;
-    private Vector3 curveStartPoint, curveEndPoint;
-    private Vector3 m1, m2;
     private List<Vector3> path = new List<Vector3>();
     private int turnCounter;
+    private int orientation;
 
     void Awake()
     {
@@ -33,7 +35,14 @@ public class Path : MonoBehaviour
 
     public Vector3 GetPathPoint(int index)
     {
-        return path[index];
+        if (path.Count != 0)
+        {
+            return path[index];
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     public Vector3 GetEntryRunPosition()
@@ -66,9 +75,9 @@ public class Path : MonoBehaviour
         return returnPosition;
     }
 
-    public Vector3 GetFinishPosition()
+    public int GetOrientation()
     {
-        return finishPosition;
+        return orientation;
     }
 
     public bool IsTurning(Vector3 playerPosition)
@@ -117,86 +126,79 @@ public class Path : MonoBehaviour
             orientation = 1;
         }
 
-        startPosition = playerPosition;
-        entryRunPosition = CalculateEntryRunPosition(startPosition, targetPosition, distanceEntryRun * orientation);
+        path.Add(playerPosition);
 
-        path.Add(startPosition);
-
-        curveStartPoint = GetCurveStartPoint(startPosition, entryRunPosition, targetPosition, 1f);
-        curveEndPoint = GetCurveEndPoint(startPosition, entryRunPosition, targetPosition, 1f);
-        AddCurvePoints(curveStartPoint, curveEndPoint, entryRunPosition);
-        entryRunPosition = curveStartPoint;
+        //Create attack curve
+        entryRunPosition = CreateCurve(playerPosition,
+                                       new Vector3(targetPosition.x - (distanceEntryRun * orientation), playerPosition.y, playerPosition.z),
+                                       targetPosition,
+                                       entryRunCurveRadius);
         entryRunRollPosition = entryRunPosition - rollEntryDistance * Vector3.right * orientation;
 
-        endRunPosition = CalculateEndRunPosition(curveEndPoint, targetPosition, distanceEndRun);
-        escapePosition = CalculateEscapePosition(startPosition, targetPosition, distanceEscape);
-
-        curveStartPoint = GetCurveStartPoint(curveEndPoint, endRunPosition, escapePosition, 2f);
-        curveEndPoint = GetCurveEndPoint(curveEndPoint, endRunPosition, escapePosition, 2f);
-        AddCurvePoints(curveStartPoint, curveEndPoint, endRunPosition);
-        endRunPosition = curveStartPoint;
+        //create escape curve
+        escapePosition = new Vector3(horizontalBorder * orientation - (distanceEscapeFromBorder * orientation), targetPosition.y + distanceEscapeVertical, playerPosition.z);
+        endRunPosition = CreateCurve(path.Last(),
+                                     targetPosition - distanceEndRun * (targetPosition - path.Last()).normalized,
+                                     escapePosition,
+                                     endRunCurveRadius);
         endRunRollPosition = endRunPosition + rollEndDistance * Vector3.right * orientation;
 
-        returnPosition = new Vector3((horizontalBorder * orientation) - (10f * orientation), escapePosition.y + curveRadius * 2f, startPosition.z);
+        //create first return curve
+        returnPosition = new Vector3((horizontalBorder * orientation) - (distanceEscapeFromBorder * orientation), escapePosition.y + returnCurveRadius * 2f, playerPosition.z);
+        CreateCurve(path.Last(),
+                    escapePosition,
+                    returnPosition,
+                    returnCurveRadius);
+        //create second return curve
+        CreateCurve(path.Last(),
+                    returnPosition,
+                    new Vector3(path.Last().x - (distanceEscapeFromBorder * 4f * orientation), returnPosition.y + returnCurveRadius / 10f, playerPosition.z),
+                    returnCurveRadius);
 
-        curveStartPoint = GetCurveStartPoint(curveEndPoint, escapePosition, returnPosition, 1);
-        curveEndPoint = GetCurveEndPoint(curveEndPoint, escapePosition, returnPosition, 1);
-        AddCurvePoints(curveStartPoint, curveEndPoint, escapePosition);
-
-        finishPosition = new Vector3(curveEndPoint.x - (40f * orientation), returnPosition.y + 5f, startPosition.z);
-
-        curveStartPoint = GetCurveStartPoint(curveEndPoint, returnPosition, finishPosition, 1);
-        curveEndPoint = GetCurveEndPoint(curveEndPoint, returnPosition, finishPosition, 1);
-        AddCurvePoints(curveStartPoint, curveEndPoint, returnPosition);
-
-        finishPosition = new Vector3(curveEndPoint.x - (10f * orientation), curveEndPoint.y, startPosition.z);
+        finishPosition = new Vector3(path.Last().x - (10f * orientation), path.Last().y, playerPosition.z);
 
         path.Add(finishPosition);
     }
 
-    private Vector3 CalculateEntryRunPosition(Vector3 startPosition, Vector3 targetPosition, float distance)
+    private Vector3 CreateCurve(Vector3 start, Vector3 middle, Vector3 end, float radius)
     {
-        return new Vector3(targetPosition.x - distance, startPosition.y, startPosition.z);
+        Vector3 curveStartPoint = GetCurveStartEndPoint(start, middle, end, radius, "Start");
+        Vector3 curveEndPoint = GetCurveStartEndPoint(start, middle, end, radius, "End");
+        AddCurvePoints(curveStartPoint, curveEndPoint, middle);
+        return curveStartPoint;
     }
 
-    private Vector3 CalculateEndRunPosition(Vector3 startPosition, Vector3 targetPosition, float distance)
+    private Vector3 GetCurveStartEndPoint(Vector3 pointA, Vector3 pointB, Vector3 pointC, float curveRadius, string type)
     {
-        return targetPosition - distance * (targetPosition - startPosition).normalized;
+        if (type.Equals("Start"))
+        {
+            Vector3 lineBA = pointB - pointA;
+            return pointB - curveRadius * lineBA.normalized;
+        }
+        else if (type.Equals("End"))
+        {
+            Vector3 lineCB = pointC - pointB;
+            return pointB + curveRadius * lineCB.normalized;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
-    private Vector3 CalculateEscapePosition(Vector3 startPosition, Vector3 targetPosition, float distance)
+    private void AddCurvePoints(Vector3 start, Vector3 end, Vector3 controlPoint)
     {
-        return new Vector3(horizontalBorder * orientation - (10f * orientation), targetPosition.y + distance, startPosition.z);
-    }
-
-    private Vector3 GetCurveStartPoint(Vector3 pointA, Vector3 pointB, Vector3 pointC, float radiusMultiplier)
-    {
-        lineBA = pointB - pointA;
-        lineCB = pointC - pointB;
-        float distanceTangent = curveRadius * radiusMultiplier;
-        return pointB - distanceTangent * lineBA.normalized;
-    }
-
-    private Vector3 GetCurveEndPoint(Vector3 pointA, Vector3 pointB, Vector3 pointC, float radiusMultiplier)
-    {
-        lineBA = pointB - pointA;
-        lineCB = pointC - pointB;
-        float distanceTangent = curveRadius * radiusMultiplier;
-        return pointB + distanceTangent * lineCB.normalized;
-    }
-
-    private void AddCurvePoints(Vector3 startPosition, Vector3 endPosition, Vector3 controlPoint)
-    {
-        path.Add(startPosition);
+        path.Add(start);
         float count = 0.0f;
+        Vector3 newPosition, m1, m2;
         for (int i = 1; i < curveNumberPoints; i++)
         {
             count += 1f / curveNumberPoints;
-            m1 = Vector3.Lerp(startPosition, controlPoint, count);
-            m2 = Vector3.Lerp(controlPoint, endPosition, count);
-            Vector3 newPosition = Vector3.Lerp(m1, m2, count);
+            m1 = Vector3.Lerp(start, controlPoint, count);
+            m2 = Vector3.Lerp(controlPoint, end, count);
+            newPosition = Vector3.Lerp(m1, m2, count);
             path.Add(newPosition);
         }
-        path.Add(endPosition);
+        path.Add(end);
     }
 }

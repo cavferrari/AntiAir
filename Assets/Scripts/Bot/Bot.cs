@@ -5,7 +5,8 @@ public class Bot : MonoBehaviour
 {
     public float maxSpeed = 30f;
     public float minSpeed = 20f;
-    public float gravityAcceleration = 10f;
+    public float gravityAcceleration = 0.1f;
+    public float gravityDeceleration = 0.2f;
     public float rotationSpeed = 50f;
     public float rollEntryDistance = 20f;
     public float rollEndDistance = 20f;
@@ -25,7 +26,6 @@ public class Bot : MonoBehaviour
     {
         path = this.GetComponent<Path>();
         targets = GameObject.FindGameObjectsWithTag("Target");
-        Debug.Log(targets.Length);
     }
 
     void Update()
@@ -95,7 +95,7 @@ public class Bot : MonoBehaviour
         {
             if (speed > minSpeed)
             {
-                speed -= gravityAcceleration;
+                speed -= gravityDeceleration;
             }
         }
     }
@@ -121,17 +121,17 @@ public class Bot : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         while (elapsedTime < time)
         {
-            if (path.orientation == 1)
+            if (path.GetOrientation() == 1)
             {
-                if (this.transform.rotation.eulerAngles.z <= 270f && this.transform.rotation.eulerAngles.z > 180f)
+                if (this.transform.rotation.eulerAngles.z > 180f && this.transform.rotation.eulerAngles.z <= 270f)
                 {
                     up = Vector3.down;
                 }
-                else if (this.transform.rotation.eulerAngles.z <= 180f && this.transform.rotation.eulerAngles.z > 90f)
+                else if (this.transform.rotation.eulerAngles.z > 90f && this.transform.rotation.eulerAngles.z <= 180f)
                 {
                     up = Vector3.forward;
                 }
-                else if (this.transform.rotation.eulerAngles.z <= 90f && this.transform.rotation.eulerAngles.z > 0f)
+                else if (this.transform.rotation.eulerAngles.z > 0f && this.transform.rotation.eulerAngles.z <= 90f)
                 {
                     up = Vector3.up;
                     elapsedTime = 1000f;
@@ -139,7 +139,7 @@ public class Bot : MonoBehaviour
             }
             else
             {
-                if (this.transform.rotation.eulerAngles.z >= 0f && this.transform.rotation.eulerAngles.z <= 90f)
+                if (this.transform.rotation.eulerAngles.z > 0f && this.transform.rotation.eulerAngles.z <= 90f)
                 {
                     up = Vector3.down;
                 }
@@ -169,9 +169,9 @@ public class Bot : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         while (elapsedTime < time)
         {
-            if (path.orientation == 1)
+            if (path.GetOrientation() == 1)
             {
-                if (this.transform.rotation.eulerAngles.z >= 0f && this.transform.rotation.eulerAngles.z <= 90f)
+                if (this.transform.rotation.eulerAngles.z > 0f && this.transform.rotation.eulerAngles.z <= 90f)
                 {
                     up = Vector3.down;
                 }
@@ -187,15 +187,15 @@ public class Bot : MonoBehaviour
             }
             else
             {
-                if (this.transform.rotation.eulerAngles.z <= 270f && this.transform.rotation.eulerAngles.z > 180f)
+                if (this.transform.rotation.eulerAngles.z > 180f && this.transform.rotation.eulerAngles.z <= 273f)
                 {
                     up = Vector3.down;
                 }
-                else if (this.transform.rotation.eulerAngles.z <= 180f && this.transform.rotation.eulerAngles.z > 90f)
+                else if (this.transform.rotation.eulerAngles.z > 93f && this.transform.rotation.eulerAngles.z <= 180f)
                 {
                     up = Vector3.back;
                 }
-                else if (this.transform.rotation.eulerAngles.z <= 90f && this.transform.rotation.eulerAngles.z > 0f)
+                else if (this.transform.rotation.eulerAngles.z > 0f && this.transform.rotation.eulerAngles.z <= 93f)
                 {
                     up = Vector3.up;
                     elapsedTime = 1000f;

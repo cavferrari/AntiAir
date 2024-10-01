@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 79142632}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.241, z: -2.921}
+  m_LocalPosition: {x: -0, y: 0.141, z: -1.756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -200,7 +200,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.3
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1065,9 +1065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8454d7580306984bab8a91c362ab476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 40
-  minSpeed: 20
+  maxSpeed: 35
+  minSpeed: 25
   gravityAcceleration: 0.1
+  gravityDeceleration: 0.12
   rotationSpeed: 220
   rollEntryDistance: 20
   rollEndDistance: 30
@@ -1132,7 +1133,7 @@ Transform:
   m_GameObject: {fileID: 1117384798}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -305.2, y: 265, z: 0}
+  m_LocalPosition: {x: -295.03, y: 273.2, z: -30.016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1151,11 +1152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d50588a06e7824e97431ef969cdc76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveRadius: 50
+  entryRunCurveRadius: 50
+  endRunCurveRadius: 100
+  returnCurveRadius: 50
   curveNumberPoints: 20
   distanceEntryRun: 150
   distanceEndRun: 0
-  distanceEscape: 170
+  distanceEscapeFromBorder: 10
+  distanceEscapeVertical: 170
   orientation: 0
 --- !u!4 &1150198551 stripped
 Transform:

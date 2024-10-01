@@ -155,7 +155,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -253,10 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 3
-  minX: -500
-  maxX: 500
-  minY: 0
-  maxY: 500
 --- !u!114 &8863190474277785133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc25ef5041c80464b8c8f26e12a117ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleVelocity: 700
+  muzzleVelocity: 600
   mass: 0.02
   radius: 0.05
   dragCoefficient: 0.02
