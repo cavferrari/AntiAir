@@ -8,13 +8,16 @@ public class Path : MonoBehaviour
     public float endRunCurveRadius = 100f;
     public float returnCurveRadius = 100f;
     public int curveNumberPoints = 15;
-    public float distanceEntryRun = 150f;
-    public float distanceEndRun = 50f;
+    public float distanceEntryRunMax = 200f;
+    public float distanceEntryRunMin = 100f;
+    public float distanceEndRunMax = 50f;
+    public float distanceEndRunMin = -40f;
     public float distanceEscapeFromBorder = 10f;
-    public float distanceEscapeVertical = 170f;
+    public float distanceEscapeVerticalMax = 200f;
+    public float distanceEscapeVerticalMin = 100f;
 
 
-    private float horizontalBorder, topBorder;
+    private float horizontalBorder;
     private Vector3 returnPosition, finishPosition, entryRunPosition, endRunPosition, escapePosition;
     private Vector3 entryRunRollPosition, endRunRollPosition;
     private List<Vector3> path = new List<Vector3>();
@@ -25,7 +28,7 @@ public class Path : MonoBehaviour
     {
         Vector2 screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, Camera.main.transform.position.z));
         horizontalBorder = screenBounds.x;
-        topBorder = screenBounds.y;
+        //topBorder = screenBounds.y;
     }
 
     public int GetPathCount()
@@ -128,20 +131,23 @@ public class Path : MonoBehaviour
 
         path.Add(playerPosition);
 
+        float distanceEntryRun = Random.Range(distanceEntryRunMin, distanceEntryRunMax) * orientation;
         //Create attack curve
         entryRunPosition = CreateCurve(playerPosition,
-                                       new Vector3(targetPosition.x - (distanceEntryRun * orientation), playerPosition.y, playerPosition.z),
+                                       new Vector3(targetPosition.x - distanceEntryRun, playerPosition.y, playerPosition.z),
                                        targetPosition,
                                        entryRunCurveRadius);
-        entryRunRollPosition = entryRunPosition - rollEntryDistance * Vector3.right * orientation;
+        entryRunRollPosition = entryRunPosition - orientation * rollEntryDistance * Vector3.right;
 
-        //create escape curve
+        float distanceEscapeVertical = Random.Range(distanceEscapeVerticalMin, distanceEscapeVerticalMax);
         escapePosition = new Vector3(horizontalBorder * orientation - (distanceEscapeFromBorder * orientation), targetPosition.y + distanceEscapeVertical, playerPosition.z);
+        float distanceEndRun = Random.Range(distanceEndRunMin, distanceEndRunMax);
+        //create escape curve
         endRunPosition = CreateCurve(path.Last(),
                                      targetPosition - distanceEndRun * (targetPosition - path.Last()).normalized,
                                      escapePosition,
                                      endRunCurveRadius);
-        endRunRollPosition = endRunPosition + rollEndDistance * Vector3.right * orientation;
+        endRunRollPosition = endRunPosition + orientation * rollEndDistance * Vector3.right;
 
         //create first return curve
         returnPosition = new Vector3((horizontalBorder * orientation) - (distanceEscapeFromBorder * orientation), escapePosition.y + returnCurveRadius * 2f, playerPosition.z);

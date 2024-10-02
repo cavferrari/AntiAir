@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+
 [CustomEditor(typeof(Path), true)]
 [InitializeOnLoad]
 public class PathInspector : Editor

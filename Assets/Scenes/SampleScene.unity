@@ -1156,11 +1156,13 @@ MonoBehaviour:
   endRunCurveRadius: 100
   returnCurveRadius: 50
   curveNumberPoints: 20
-  distanceEntryRun: 150
-  distanceEndRun: 0
+  distanceEntryRunMax: 200
+  distanceEntryRunMin: 100
+  distanceEndRunMax: 50
+  distanceEndRunMin: -45
   distanceEscapeFromBorder: 10
-  distanceEscapeVertical: 170
-  orientation: 0
+  distanceEscapeVerticalMax: 190
+  distanceEscapeVerticalMin: 50
 --- !u!4 &1150198551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 474c6ed2ccbf6d84882049e93e6bdaa7,
