@@ -11,11 +11,10 @@ public class Path : MonoBehaviour
     public float distanceEntryRunMax = 200f;
     public float distanceEntryRunMin = 100f;
     public float distanceEndRunMax = 50f;
-    public float distanceEndRunMin = -40f;
+    public float distanceEndRunMin = -45f;
     public float distanceEscapeFromBorder = 10f;
-    public float distanceEscapeVerticalMax = 200f;
+    public float distanceEscapeVerticalMax = 190f;
     public float distanceEscapeVerticalMin = 100f;
-
 
     private float horizontalBorder;
     private Vector3 returnPosition, finishPosition, entryRunPosition, endRunPosition, escapePosition;

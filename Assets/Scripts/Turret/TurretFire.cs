@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireBullet : MonoBehaviour
+public class TurretFire : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform[] muzzles;

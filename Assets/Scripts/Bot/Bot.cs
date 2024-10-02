@@ -14,6 +14,7 @@ public class Bot : MonoBehaviour
     public float speed;
 
     private Path path;
+    private BotFire botFire;
     private Quaternion targetRotation;
     private Vector3 direction;
     private Vector3 currentTargetPosition;
@@ -25,6 +26,7 @@ public class Bot : MonoBehaviour
     void Start()
     {
         path = this.GetComponent<Path>();
+        botFire = this.GetComponent<BotFire>();
         targets = GameObject.FindGameObjectsWithTag("Target");
     }
 
@@ -40,6 +42,7 @@ public class Bot : MonoBehaviour
                 this.transform.position = path.GetPathPoint(indexCount);
                 indexCount += 1;
             }
+            UpdateFire();
         }
         else
         {
@@ -98,6 +101,11 @@ public class Bot : MonoBehaviour
                 speed -= gravityDeceleration;
             }
         }
+    }
+
+    private void UpdateFire()
+    {
+        botFire.SetFire(isAttacking && Vector3.Distance(this.transform.position, currentTargetPosition) < botFire.distanceFromTarget);
     }
 
     private IEnumerator Yaw(float time)
