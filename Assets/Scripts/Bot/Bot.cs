@@ -14,7 +14,7 @@ public class Bot : MonoBehaviour
     public float speed;
 
     private Path path;
-    private BotFire botFire;
+    private BotFireControl botFireControl;
     private Quaternion targetRotation;
     private Vector3 direction;
     private Vector3 currentTargetPosition;
@@ -26,7 +26,7 @@ public class Bot : MonoBehaviour
     void Start()
     {
         path = this.GetComponent<Path>();
-        botFire = this.GetComponent<BotFire>();
+        botFireControl = this.GetComponent<BotFireControl>();
         targets = GameObject.FindGameObjectsWithTag("Target");
     }
 
@@ -105,7 +105,17 @@ public class Bot : MonoBehaviour
 
     private void UpdateFire()
     {
-        botFire.SetFire(isAttacking && Vector3.Distance(this.transform.position, currentTargetPosition) < botFire.distanceFromTarget);
+        if (isAttacking && !botFireControl.IsFiring())
+        {
+            if (Vector3.Distance(this.transform.position, currentTargetPosition) < botFireControl.distanceFromTarget)
+            {
+                botFireControl.SetFire(true);
+            }
+        }
+        else if (!isAttacking && botFireControl.IsFiring())
+        {
+            botFireControl.SetFire(false);
+        }
     }
 
     private IEnumerator Yaw(float time)

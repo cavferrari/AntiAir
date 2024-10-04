@@ -18,7 +18,7 @@ public class IntegrationMethods
     public static void Heuns(float timeStep,
                              Vector3 currentPosition,
                              Vector3 currentVelocity,
-                             BulletData bulletData,
+                             BallisticData ballisticData,
                              out Vector3 newPosition,
                              out Vector3 newVelocity)
     {
@@ -34,11 +34,11 @@ public class IntegrationMethods
         //
         //Euler forward
         pos_E = currentPosition + timeStep * velocityFactor;
-        acceleartionFactorEuler += bulletData.CalculateDrag(currentVelocity);
+        acceleartionFactorEuler += ballisticData.CalculateDrag(currentVelocity);
         vel_E = currentVelocity + timeStep * acceleartionFactorEuler;
         //Heuns method
         pos_H = currentPosition + timeStep * 0.5f * (velocityFactor + vel_E);
-        acceleartionFactorHeun += bulletData.CalculateDrag(vel_E);
+        acceleartionFactorHeun += ballisticData.CalculateDrag(vel_E);
         vel_H = currentVelocity + timeStep * 0.5f * (acceleartionFactorEuler + acceleartionFactorHeun);
         newPosition = pos_H;
         newVelocity = vel_H;
@@ -47,10 +47,10 @@ public class IntegrationMethods
     public static void CurrentIntegrationMethod(float timeStep,
                                                 Vector3 currentPosition,
                                                 Vector3 currentVelocity,
-                                                BulletData bulletData,
+                                                BallisticData ballisticData,
                                                 out Vector3 newPosition,
                                                 out Vector3 newVelocity)
     {
-        Heuns(timeStep, currentPosition, currentVelocity, bulletData, out newPosition, out newVelocity);
+        Heuns(timeStep, currentPosition, currentVelocity, ballisticData, out newPosition, out newVelocity);
     }
 }

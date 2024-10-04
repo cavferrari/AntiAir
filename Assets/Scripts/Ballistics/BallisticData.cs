@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletData : MonoBehaviour
+public class BallisticData : MonoBehaviour
 {
     //Data belonging to this bullet type
     //The initial speed [m/s]
