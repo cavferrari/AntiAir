@@ -1,15 +1,15 @@
 using UnityEditor;
 using UnityEngine;
-[CustomEditor(typeof(EnemyInput), true)]
+[CustomEditor(typeof(TestEnemyInput), true)]
 [InitializeOnLoad]
-public class EnemyInputInspector : Editor
+public class TestEnemyInputInspector : Editor
 {
-    static EnemyInputInspector()
+    static TestEnemyInputInspector()
     {
     }
 
     [DrawGizmo(GizmoType.InSelectionHierarchy | GizmoType.NotInSelectionHierarchy)]
-    static void DrawHandles(EnemyInput enemyInput, GizmoType gizmoType)
+    static void DrawHandles(TestEnemyInput enemyInput, GizmoType gizmoType)
     {
         Handles.color = Color.red;
         for (int i = 0; i < enemyInput.GetPathCount() - 1; i++)

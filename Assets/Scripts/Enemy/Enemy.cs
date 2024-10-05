@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Bot : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float maxSpeed = 30f;
     public float minSpeed = 20f;
@@ -15,7 +15,7 @@ public class Bot : MonoBehaviour
     public float zAxisRotation;
 
     private Path path;
-    private BotFireControl botFireControl;
+    private EnemyFireControl enemyFireControl;
     private Quaternion targetRotation;
     private Vector3 direction;
     private Vector3 currentTargetPosition;
@@ -27,7 +27,7 @@ public class Bot : MonoBehaviour
     void Start()
     {
         path = this.GetComponent<Path>();
-        botFireControl = this.GetComponent<BotFireControl>();
+        enemyFireControl = this.GetComponent<EnemyFireControl>();
         targets = GameObject.FindGameObjectsWithTag("Target");
     }
 
@@ -112,16 +112,16 @@ public class Bot : MonoBehaviour
 
     private void UpdateFire()
     {
-        if (isAttacking && !botFireControl.IsFiring())
+        if (isAttacking && !enemyFireControl.IsFiring())
         {
-            if (Vector3.Distance(this.transform.position, currentTargetPosition) < botFireControl.DistanceFromTargetTrigger())
+            if (Vector3.Distance(this.transform.position, currentTargetPosition) < enemyFireControl.DistanceFromTargetTrigger())
             {
-                botFireControl.SetFire(true);
+                enemyFireControl.SetFire(true);
             }
         }
-        else if (!isAttacking && botFireControl.IsFiring())
+        else if (!isAttacking && enemyFireControl.IsFiring())
         {
-            botFireControl.SetFire(false);
+            enemyFireControl.SetFire(false);
         }
     }
 

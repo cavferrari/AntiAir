@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BotFireControl : MonoBehaviour
+public class EnemyFireControl : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform muzzle;
@@ -12,7 +12,7 @@ public class BotFireControl : MonoBehaviour
     public int rateOfFire = 1;
 
     private BallisticData bulletBallisticData;
-    private Bot bot;
+    private Enemy enemy;
     private float timer = 0f;
     private float muzzleFlashTimer = 0f;
     private bool fireBullet = false;
@@ -24,7 +24,7 @@ public class BotFireControl : MonoBehaviour
     void Start()
     {
         bulletBallisticData = bulletPrefab.GetComponent<BallisticData>();
-        bot = this.GetComponent<Bot>();
+        enemy = this.GetComponent<Enemy>();
         for (int i = 0; i < weaponsPrefabs.Length; i++)
         {
             for (int j = 0; j < weaponsRails.Length; j++)
@@ -99,7 +99,7 @@ public class BotFireControl : MonoBehaviour
         {
             GameObject weapon = weapons.Last();
             //weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, weapon.GetComponent<BallisticData>().muzzleVelocity * weapon.transform.parent.forward);
-            weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, bot.Velocity() * weapon.GetComponent<BallisticData>().muzzleVelocity);
+            weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, enemy.Velocity() * weapon.GetComponent<BallisticData>().muzzleVelocity);
             timer = 0.5f;
             weapons.Remove(weapon);
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyInput : MonoBehaviour
+public class TestEnemyInput : MonoBehaviour
 {
     public Transform inputTransform;
     public Transform aircraftTransform;

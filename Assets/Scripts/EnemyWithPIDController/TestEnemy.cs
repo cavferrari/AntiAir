@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class TestEnemy : MonoBehaviour
 {
     public Transform xAxis;
     public Transform zAxis;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody aircraftRigidBody;
     private PidController pidController;
-    private EnemyInput enemyInput;
+    private TestEnemyInput enemyInput;
     private Vector3 inputPosition;
     private Vector3 direction;
     private bool isAttacking = false;
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     {
         aircraftRigidBody = aircraftTransform.GetComponent<Rigidbody>();
         pidController = this.GetComponent<PidController>();
-        enemyInput = this.GetComponentInChildren<EnemyInput>();
+        enemyInput = this.GetComponentInChildren<TestEnemyInput>();
     }
 
     void Update()
