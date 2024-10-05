@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
     private Vector3 direction;
     private Vector3 currentTargetPosition;
     private int indexCount;
-    private bool isAttacking = false;
     private Vector3 up = Vector3.up;
     private GameObject[] targets;
 
@@ -76,14 +75,12 @@ public class Enemy : MonoBehaviour
 
     private void UpdateYaw()
     {
-        if (!isAttacking && path.IsTurning(this.transform.position))
+        if (path.IsTurningDown(this.transform.position))
         {
-            isAttacking = true;
             StartCoroutine(SpinRight(rotationPauseTime));
         }
-        if (isAttacking && path.IsTurning(this.transform.position))
+        if (path.IsTurningUp(this.transform.position))
         {
-            isAttacking = false;
             StartCoroutine(SpinLeft(rotationPauseTime));
         }
     }
@@ -112,14 +109,14 @@ public class Enemy : MonoBehaviour
 
     private void UpdateFire()
     {
-        if (isAttacking && !enemyFireControl.IsFiring())
+        if (path.IsAttacking(this.transform.position) && !enemyFireControl.IsFiring())
         {
             if (Vector3.Distance(this.transform.position, currentTargetPosition) < enemyFireControl.DistanceFromTargetTrigger())
             {
                 enemyFireControl.SetFire(true);
             }
         }
-        else if (!isAttacking && enemyFireControl.IsFiring())
+        else if (!path.IsAttacking(this.transform.position) && enemyFireControl.IsFiring())
         {
             enemyFireControl.SetFire(false);
         }
@@ -127,7 +124,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Yaw(float time)
     {
-        if (isAttacking)
+        if (path.IsAttacking(this.transform.position))
         {
             up = Vector3.back;
         }
@@ -212,11 +209,11 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                if (this.transform.rotation.eulerAngles.z > 180f && this.transform.rotation.eulerAngles.z <= 273f)
+                if (this.transform.rotation.eulerAngles.z > 180f && this.transform.rotation.eulerAngles.z <= 275f)
                 {
                     up = Vector3.down;
                 }
-                else if (this.transform.rotation.eulerAngles.z > 93f && this.transform.rotation.eulerAngles.z <= 180f)
+                else if (this.transform.rotation.eulerAngles.z > 95f && this.transform.rotation.eulerAngles.z <= 180f)
                 {
                     up = Vector3.back;
                 }

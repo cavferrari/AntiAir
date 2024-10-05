@@ -82,34 +82,38 @@ public class Path : MonoBehaviour
         return orientation;
     }
 
-    public bool IsTurning(Vector3 playerPosition)
+    public bool IsAttacking(Vector3 playerPosition)
     {
-        bool isTurning = false;
+        bool isAttacking;
         if (orientation == 1)
         {
-            if (playerPosition.x >= entryRunRollPosition.x && playerPosition.x < endRunRollPosition.x && turnCounter == 0)
-            {
-                isTurning = true;
-                turnCounter += 1;
-            }
-            else if (playerPosition.x >= endRunRollPosition.x && turnCounter == 1)
-            {
-                isTurning = true;
-                turnCounter += 1;
-            }
+            isAttacking = playerPosition.x >= entryRunPosition.x && playerPosition.x <= endRunRollPosition.x;
         }
         else
         {
-            if (playerPosition.x <= entryRunRollPosition.x && playerPosition.x > endRunRollPosition.x && turnCounter == 0)
-            {
-                isTurning = true;
-                turnCounter += 1;
-            }
-            else if (playerPosition.x <= endRunRollPosition.x && turnCounter == 1)
-            {
-                isTurning = true;
-                turnCounter += 1;
-            }
+            isAttacking = playerPosition.x <= entryRunPosition.x && playerPosition.x >= endRunRollPosition.x;
+        }
+        return isAttacking;
+    }
+
+    public bool IsTurningDown(Vector3 playerPosition)
+    {
+        bool isTurning = false;
+        if (playerPosition.x * orientation >= entryRunRollPosition.x * orientation && playerPosition.x * orientation < endRunRollPosition.x * orientation && turnCounter == 0)
+        {
+            isTurning = true;
+            turnCounter += 1;
+        }
+        return isTurning;
+    }
+
+    public bool IsTurningUp(Vector3 playerPosition)
+    {
+        bool isTurning = false;
+        if (playerPosition.x * orientation >= endRunRollPosition.x * orientation && turnCounter == 1)
+        {
+            isTurning = true;
+            turnCounter += 1;
         }
         return isTurning;
     }
