@@ -12,6 +12,7 @@ public class Rocket : Ballistics
 
     public override void Initialize(Vector3 position, Vector3 velocity)
     {
+        this.transform.parent = poolParent;
         base.Initialize(position, velocity);
         trailRenderer.enabled = true;
     }
@@ -20,7 +21,6 @@ public class Rocket : Ballistics
     {
         if (currentPosition.y <= 0 || timer <= 0f)
         {
-            this.transform.parent = poolParent;
             trailRenderer.enabled = false;
         }
         base.Destroy();

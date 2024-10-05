@@ -12,6 +12,7 @@ public class Bot : MonoBehaviour
     public float rollEndDistance = 20f;
     public float rotationPauseTime = 2f;
     public float speed;
+    public float zAxisRotation;
 
     private Path path;
     private BotFireControl botFireControl;
@@ -50,11 +51,17 @@ public class Bot : MonoBehaviour
             path.GeneratePath(this.transform.position, currentTargetPosition, rollEntryDistance, rollEndDistance);
             indexCount = 0;
         }
+        zAxisRotation = this.transform.rotation.eulerAngles.z;
     }
 
     void FixedUpdate()
     {
         UpdateSpeed();
+    }
+
+    public Vector3 Velocity()
+    {
+        return (path.GetPathPoint(indexCount) - this.transform.position) * speed;
     }
 
     private void UpdatePitch()
@@ -107,7 +114,7 @@ public class Bot : MonoBehaviour
     {
         if (isAttacking && !botFireControl.IsFiring())
         {
-            if (Vector3.Distance(this.transform.position, currentTargetPosition) < botFireControl.distanceFromTarget)
+            if (Vector3.Distance(this.transform.position, currentTargetPosition) < botFireControl.DistanceFromTargetTrigger())
             {
                 botFireControl.SetFire(true);
             }

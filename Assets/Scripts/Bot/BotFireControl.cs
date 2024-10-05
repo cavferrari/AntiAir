@@ -10,9 +10,9 @@ public class BotFireControl : MonoBehaviour
     public GameObject[] weaponsPrefabs;
     public Transform[] weaponsRails;
     public int rateOfFire = 1;
-    public float distanceFromTarget = 50f;
 
-    private BallisticData ballisticData;
+    private BallisticData bulletBallisticData;
+    private Bot bot;
     private float timer = 0f;
     private float muzzleFlashTimer = 0f;
     private bool fireBullet = false;
@@ -23,7 +23,8 @@ public class BotFireControl : MonoBehaviour
 
     void Start()
     {
-        ballisticData = bulletPrefab.GetComponent<BallisticData>();
+        bulletBallisticData = bulletPrefab.GetComponent<BallisticData>();
+        bot = this.GetComponent<Bot>();
         for (int i = 0; i < weaponsPrefabs.Length; i++)
         {
             for (int j = 0; j < weaponsRails.Length; j++)
@@ -80,9 +81,16 @@ public class BotFireControl : MonoBehaviour
         }
     }
 
-    public bool HasWeapon()
+    public float DistanceFromTargetTrigger()
     {
-        return weapons.Count != 0;
+        if (weapons.Count > 0)
+        {
+            return weapons[0].GetComponent<Ballistics>().distanceFromTargetTrigger;
+        }
+        else
+        {
+            return bulletPrefab.GetComponent<Ballistics>().distanceFromTargetTrigger;
+        }
     }
 
     private void FireWeapon()
@@ -90,7 +98,8 @@ public class BotFireControl : MonoBehaviour
         if (fireWeapon && weapons.Count > 0 && timer <= 0f)
         {
             GameObject weapon = weapons.Last();
-            weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, weapon.GetComponent<BallisticData>().muzzleVelocity * weapon.transform.parent.forward);
+            //weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, weapon.GetComponent<BallisticData>().muzzleVelocity * weapon.transform.parent.forward);
+            weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, bot.Velocity() * weapon.GetComponent<BallisticData>().muzzleVelocity);
             timer = 0.5f;
             weapons.Remove(weapon);
         }
@@ -103,7 +112,7 @@ public class BotFireControl : MonoBehaviour
             GameObject newBullet = ObjectPooling.Instance.Get(bulletPrefab.name + "Pool",
                                                               muzzle.position,
                                                               muzzle.rotation);
-            newBullet.GetComponent<Ballistics>().Initialize(muzzle.position, ballisticData.muzzleVelocity * muzzle.forward);
+            newBullet.GetComponent<Ballistics>().Initialize(muzzle.position, bulletBallisticData.muzzleVelocity * muzzle.forward);
             timer = 1f / rateOfFire;
             CreateMuzzleFlash();
         }

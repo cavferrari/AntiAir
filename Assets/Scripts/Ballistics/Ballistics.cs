@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Ballistics : MonoBehaviour
 {
+    public float distanceFromTargetTrigger = 200f;
     public float lifeTime = 3f;
 
     protected Vector3 currentPosition;
@@ -77,6 +78,6 @@ public class Ballistics : MonoBehaviour
 
     protected virtual void CustomStart()
     {
-        ballisticData = GetComponent<BallisticData>();
+        ballisticData = this.GetComponent<BallisticData>();
     }
 }

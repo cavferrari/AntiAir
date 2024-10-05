@@ -1266,6 +1266,7 @@ MonoBehaviour:
   rollEndDistance: 30
   rotationPauseTime: 1.5
   speed: 40
+  zAxisRotation: 0
 --- !u!23 &1117384800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1356,7 +1357,7 @@ MonoBehaviour:
   distanceEndRunMax: 50
   distanceEndRunMin: -40
   distanceEscapeFromBorder: 10
-  distanceEscapeVerticalMax: 190
+  distanceEscapeVerticalMax: 180
   distanceEscapeVerticalMin: 50
 --- !u!114 &1117384804
 MonoBehaviour:
@@ -1378,12 +1379,11 @@ MonoBehaviour:
   - {fileID: 113281929}
   - {fileID: 1730479999}
   weaponsPrefabs:
-  - {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231, type: 3}
+  - {fileID: 8568367215729597945, guid: 900769fb1b127b04299e891ae2065747, type: 3}
   weaponsRails:
   - {fileID: 1488518696}
   - {fileID: 787538334}
   rateOfFire: 10
-  distanceFromTarget: 200
 --- !u!4 &1150198551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 474c6ed2ccbf6d84882049e93e6bdaa7,

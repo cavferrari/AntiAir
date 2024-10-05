@@ -235,6 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a2ff9bbcb451643939053e477374b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ordenaceType: 1
+  distanceFromTargetTrigger: 250
   lifeTime: 3
 --- !u!114 &7596456869256552766
 MonoBehaviour:
