@@ -17,11 +17,12 @@ public class Bomb : Ballistics
         CustomStart();
     }
 
-    public override void Initialize(Vector3 position, Vector3 direction)
+    public override void Initialize(Vector3 position, Vector3 direction, float plane)
     {
         this.transform.parent = poolParent;
         currentPosition = this.transform.position;
         currentVelocity = Vector3.zero;
+        zPlane = plane;
         rb.isKinematic = false;
         rb.AddForce(direction * ballisticData.muzzleVelocity);
         trailRenderer.enabled = true;
@@ -30,6 +31,9 @@ public class Bomb : Ballistics
 
     protected override void Move()
     {
+        currentPosition = this.transform.position;
+        currentPosition.z = zPlane;
+        this.transform.position = currentPosition;
         this.transform.Rotate(0.0f, 0.0f, 360f * Time.fixedDeltaTime);
         //CheckHit();
     }

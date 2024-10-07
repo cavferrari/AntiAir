@@ -18,6 +18,7 @@ public class Ballistics : MonoBehaviour
     protected Vector3 newVelocity = Vector3.zero;
     protected BallisticData ballisticData;
     protected float timer;
+    protected float zPlane;
     protected bool isInitialized = false;
 
     void Awake()
@@ -50,10 +51,11 @@ public class Ballistics : MonoBehaviour
         }
     }
 
-    public virtual void Initialize(Vector3 position, Vector3 direction)
+    public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
     {
         currentPosition = position;
         currentVelocity = direction * ballisticData.muzzleVelocity;
+        zPlane = plane;
         timer = lifeTime;
         isInitialized = true;
     }
@@ -63,6 +65,7 @@ public class Ballistics : MonoBehaviour
         IntegrationMethods.CurrentIntegrationMethod(Time.fixedDeltaTime, currentPosition, currentVelocity, ballisticData, out newPosition, out newVelocity);
         //CheckHit();
         currentPosition = newPosition;
+        currentPosition.z = zPlane;
         currentVelocity = newVelocity;
         this.transform.position = currentPosition;
     }

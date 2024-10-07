@@ -53,12 +53,12 @@ public class EnemyFireControl : MonoBehaviour
             timer = 1f / ordenance.ActiveWeaponBallistics().rateFire;
             if (!isFiringWeapons && ordenance.IsMainWeaponActive())
             {
-                ordenance.Fire();
+                ordenance.Fire(this.transform.position.z);
                 StartCoroutine(CreateMuzzleFlash((1f / ordenance.ActiveWeaponBallistics().rateFire) / 2f));
             }
             else
             {
-                ordenance.Fire(enemy.Velocity());
+                ordenance.Fire(enemy.Velocity(), this.transform.position.z);
                 isFiringWeapons = true;
             }
         }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8100419038816051432}
   - component: {fileID: 3944736188364867491}
   - component: {fileID: 1833219057434326745}
-  - component: {fileID: 4481554571777902339}
   - component: {fileID: 7752275484368868992}
   - component: {fileID: -8835337967953271447}
   - component: {fileID: 8863190474277785133}
@@ -192,33 +191,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!54 &4481554571777902339
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5418844817395130694}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!135 &7752275484368868992
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -252,6 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946ae87c5f748ac47a9c731725bd005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballisticsType: 0
   rateFire: 10
   distanceFromTargetTrigger: 200
   lifeTime: 2

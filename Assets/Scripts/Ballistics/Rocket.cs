@@ -11,10 +11,10 @@ public class Rocket : Ballistics
         poolParent = this.transform.parent;
     }
 
-    public override void Initialize(Vector3 position, Vector3 direction)
+    public override void Initialize(Vector3 position, Vector3 direction, float plane)
     {
         this.transform.parent = poolParent;
-        base.Initialize(position, direction);
+        base.Initialize(position, direction, plane);
         trailRenderer.enabled = true;
     }
 

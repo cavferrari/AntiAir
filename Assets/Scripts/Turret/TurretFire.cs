@@ -16,7 +16,7 @@ public class TurretFire : MonoBehaviour
                 GameObject newBullet = ObjectPooling.Instance.Get(bulletPrefab.name + "Pool",
                                                                   muzzles[i].position,
                                                                   muzzles[i].rotation);
-                newBullet.GetComponent<Ballistics>().Initialize(muzzles[i].position, muzzles[i].forward);
+                newBullet.GetComponent<Ballistics>().Initialize(muzzles[i].position, muzzles[i].forward, muzzles[i].position.z);
                 timer = 1f / newBullet.GetComponent<Ballistics>().rateFire;
             }
         }

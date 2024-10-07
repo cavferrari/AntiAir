@@ -67,27 +67,27 @@ public class Ordenance : MonoBehaviour
         return activeHardPoint == mainWeapon;
     }
 
-    public void Fire(Vector3 direction)
+    public void Fire(Vector3 direction, float targetZPlane)
     {
         if (weaponsQuantity > 0)
         {
             if (activeWeaponBallistics.ballisticsType == Ballistics.BallisticsType.BOMB)
             {
-                activeWeaponBallistics.Initialize(activeHardPoint.point.position, direction);
+                activeWeaponBallistics.Initialize(activeHardPoint.point.position, direction, targetZPlane);
             }
             else if (activeWeaponBallistics.ballisticsType == Ballistics.BallisticsType.ROCKET)
             {
-                activeWeaponBallistics.Initialize(activeHardPoint.point.position, direction);
+                activeWeaponBallistics.Initialize(activeHardPoint.point.position, direction, targetZPlane);
             }
             ReduceQuantity();
         }
     }
 
-    public void Fire()
+    public void Fire(float targetZPlane)
     {
         GameObject newBullet = ObjectPooling.Instance.Get(activeHardPoint.weaponPrefab.name + "Pool",
                                                           activeHardPoint.point.position,
                                                           activeHardPoint.point.rotation);
-        newBullet.GetComponent<Ballistics>().Initialize(activeHardPoint.point.position, activeHardPoint.point.forward);
+        newBullet.GetComponent<Ballistics>().Initialize(activeHardPoint.point.position, activeHardPoint.point.forward, targetZPlane);
     }
 }
