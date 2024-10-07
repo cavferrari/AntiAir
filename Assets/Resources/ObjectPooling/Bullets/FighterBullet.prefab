@@ -252,7 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946ae87c5f748ac47a9c731725bd005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  rateFire: 10
+  distanceFromTargetTrigger: 200
+  lifeTime: 2
 --- !u!114 &8863190474277785133
 MonoBehaviour:
   m_ObjectHideFlags: 0

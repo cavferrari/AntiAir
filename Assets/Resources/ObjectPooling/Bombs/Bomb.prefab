@@ -230,6 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07eea94efa2ab414a92fc14f327553fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballisticsType: 2
+  rateFire: 3
   distanceFromTargetTrigger: 100
   lifeTime: -1
 --- !u!114 &4507161343985110370
@@ -244,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc25ef5041c80464b8c8f26e12a117ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleVelocity: 2.1
+  muzzleVelocity: 45
   mass: -1
   radius: -1
   dragCoefficient: -1

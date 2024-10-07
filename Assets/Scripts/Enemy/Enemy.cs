@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     private int indexCount;
     private Vector3 up = Vector3.up;
     private GameObject[] targets;
+    private bool isAttacking = false;
 
     void Start()
     {
@@ -60,7 +61,7 @@ public class Enemy : MonoBehaviour
 
     public Vector3 Velocity()
     {
-        return (path.GetPathPoint(indexCount) - this.transform.position) * speed;
+        return (currentTargetPosition - this.transform.position).normalized * speed;
     }
 
     private void UpdatePitch()
@@ -77,10 +78,12 @@ public class Enemy : MonoBehaviour
     {
         if (path.IsTurningDown(this.transform.position))
         {
+            isAttacking = true;
             StartCoroutine(SpinRight(rotationPauseTime));
         }
         if (path.IsTurningUp(this.transform.position))
         {
+            isAttacking = false;
             StartCoroutine(SpinLeft(rotationPauseTime));
         }
     }
@@ -109,14 +112,14 @@ public class Enemy : MonoBehaviour
 
     private void UpdateFire()
     {
-        if (path.IsAttacking(this.transform.position) && !enemyFireControl.IsFiring())
+        if (isAttacking && !enemyFireControl.IsFiring())
         {
             if (Vector3.Distance(this.transform.position, currentTargetPosition) < enemyFireControl.DistanceFromTargetTrigger())
             {
                 enemyFireControl.SetFire(true);
             }
         }
-        else if (!path.IsAttacking(this.transform.position) && enemyFireControl.IsFiring())
+        else if (!isAttacking && enemyFireControl.IsFiring())
         {
             enemyFireControl.SetFire(false);
         }
@@ -124,7 +127,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Yaw(float time)
     {
-        if (path.IsAttacking(this.transform.position))
+        if (isAttacking)
         {
             up = Vector3.back;
         }

@@ -1,140 +1,83 @@
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyFireControl : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public Transform muzzle;
     public GameObject[] muzzleFlashes;
-    public GameObject[] weaponsPrefabs;
-    public Transform[] weaponsRails;
-    public int rateOfFire = 1;
 
-    private BallisticData bulletBallisticData;
+    private Ordenance ordenance;
     private Enemy enemy;
     private float timer = 0f;
-    private float muzzleFlashTimer = 0f;
-    private bool fireBullet = false;
-    private bool fireWeapon = false;
-    private int currentMuzzleFlashIndex = -1;
     private Vector3 muzzleFlashEuler;
-    private List<GameObject> weapons = new List<GameObject>();
+    private bool fire;
+    private bool isFiringWeapons = false;
 
     void Start()
     {
-        bulletBallisticData = bulletPrefab.GetComponent<BallisticData>();
+        ordenance = this.GetComponent<Ordenance>();
         enemy = this.GetComponent<Enemy>();
-        for (int i = 0; i < weaponsPrefabs.Length; i++)
-        {
-            for (int j = 0; j < weaponsRails.Length; j++)
-            {
-                GameObject weapon = ObjectPooling.Instance.Get(weaponsPrefabs[i].name + "Pool",
-                                                               weaponsRails[j].position,
-                                                               weaponsRails[j].rotation);
-                weapon.transform.parent = weaponsRails[j].transform;
-                weapon.SetActive(true);
-                weapons.Add(weapon);
-            }
-        }
     }
 
     void Update()
     {
-        FireWeapon();
-        FireBullet();
-        UpdateMuzzleFlash();
+        UpdateFire();
         if (timer > 0f)
         {
             timer -= Time.deltaTime;
-        }
-        if (muzzleFlashTimer > 0f)
-        {
-            muzzleFlashTimer -= Time.deltaTime;
         }
     }
 
     public bool IsFiring()
     {
-        return fireWeapon || fireBullet;
+        return fire;
     }
 
-    public void SetFire(bool set)
+    public void SetFire(bool value)
     {
-        if (set)
+        fire = value;
+        if (!fire)
         {
-            if (weapons.Count == 0)
-            {
-                fireWeapon = false;
-                fireBullet = true;
-            }
-            else
-            {
-                fireWeapon = true;
-                fireBullet = false;
-            }
-        }
-        else
-        {
-            fireWeapon = set;
-            fireBullet = set;
+            isFiringWeapons = false;
         }
     }
 
     public float DistanceFromTargetTrigger()
     {
-        if (weapons.Count > 0)
+        return ordenance.ActiveWeaponBallistics().distanceFromTargetTrigger;
+    }
+
+    private void UpdateFire()
+    {
+        if (fire && timer <= 0f)
         {
-            return weapons[0].GetComponent<Ballistics>().distanceFromTargetTrigger;
-        }
-        else
-        {
-            return bulletPrefab.GetComponent<Ballistics>().distanceFromTargetTrigger;
+            timer = 1f / ordenance.ActiveWeaponBallistics().rateFire;
+            if (!isFiringWeapons && ordenance.IsMainWeaponActive())
+            {
+                ordenance.Fire();
+                StartCoroutine(CreateMuzzleFlash((1f / ordenance.ActiveWeaponBallistics().rateFire) / 2f));
+            }
+            else
+            {
+                ordenance.Fire(enemy.Velocity());
+                isFiringWeapons = true;
+            }
         }
     }
 
-    private void FireWeapon()
+    private IEnumerator CreateMuzzleFlash(float waitTime)
     {
-        if (fireWeapon && weapons.Count > 0 && timer <= 0f)
-        {
-            GameObject weapon = weapons.Last();
-            //weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, weapon.GetComponent<BallisticData>().muzzleVelocity * weapon.transform.parent.forward);
-            weapon.GetComponent<Ballistics>().Initialize(weapon.transform.parent.position, enemy.Velocity() * weapon.GetComponent<BallisticData>().muzzleVelocity);
-            timer = 0.5f;
-            weapons.Remove(weapon);
-        }
-    }
-
-    private void FireBullet()
-    {
-        if (fireBullet && timer <= 0f)
-        {
-            GameObject newBullet = ObjectPooling.Instance.Get(bulletPrefab.name + "Pool",
-                                                              muzzle.position,
-                                                              muzzle.rotation);
-            newBullet.GetComponent<Ballistics>().Initialize(muzzle.position, bulletBallisticData.muzzleVelocity * muzzle.forward);
-            timer = 1f / rateOfFire;
-            CreateMuzzleFlash();
-        }
-    }
-
-    private void CreateMuzzleFlash()
-    {
-        currentMuzzleFlashIndex = Random.Range(0, muzzleFlashes.Length - 1);
-        muzzleFlashes[currentMuzzleFlashIndex].transform.localScale = Vector3.one * (Random.value * 2f);
-        muzzleFlashEuler = muzzleFlashes[currentMuzzleFlashIndex].transform.eulerAngles;
+        int index = Random.Range(0, muzzleFlashes.Length - 1);
+        muzzleFlashes[index].transform.localScale = Vector3.one * (Random.value * 2f);
+        muzzleFlashEuler = muzzleFlashes[index].transform.eulerAngles;
         muzzleFlashEuler.z = Random.Range(0f, 360f);
-        muzzleFlashes[currentMuzzleFlashIndex].transform.eulerAngles = muzzleFlashEuler;
-        muzzleFlashes[currentMuzzleFlashIndex].SetActive(true);
-        muzzleFlashTimer = (1f / rateOfFire) / 2f;
-    }
-
-    private void UpdateMuzzleFlash()
-    {
-        if (currentMuzzleFlashIndex != -1 && muzzleFlashTimer <= 0f)
+        muzzleFlashes[index].transform.eulerAngles = muzzleFlashEuler;
+        muzzleFlashes[index].SetActive(true);
+        float elapsedTime = 0f;
+        while (elapsedTime < waitTime)
         {
-            muzzleFlashes[currentMuzzleFlashIndex].SetActive(false);
-            currentMuzzleFlashIndex = -1;
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+        muzzleFlashes[index].SetActive(false);
     }
 }

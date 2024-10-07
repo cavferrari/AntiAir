@@ -8,6 +8,7 @@ public class Bomb : Ballistics
 
     void Awake()
     {
+        base.CustomAwake();
         poolParent = this.transform.parent;
     }
 
@@ -16,13 +17,13 @@ public class Bomb : Ballistics
         CustomStart();
     }
 
-    public override void Initialize(Vector3 position, Vector3 velocity)
+    public override void Initialize(Vector3 position, Vector3 direction)
     {
         this.transform.parent = poolParent;
         currentPosition = this.transform.position;
         currentVelocity = Vector3.zero;
         rb.isKinematic = false;
-        rb.AddForce(velocity * 2f);
+        rb.AddForce(direction * ballisticData.muzzleVelocity);
         trailRenderer.enabled = true;
         isInitialized = true;
     }

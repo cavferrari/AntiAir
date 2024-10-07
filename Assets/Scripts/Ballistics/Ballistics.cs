@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Ballistics : MonoBehaviour
 {
+    public enum BallisticsType
+    {
+        BULLET, ROCKET, BOMB
+    }
+
+    public BallisticsType ballisticsType = BallisticsType.BULLET;
+    public float rateFire = 1f;
     public float distanceFromTargetTrigger = 200f;
     public float lifeTime = 3f;
 
@@ -12,6 +19,11 @@ public class Ballistics : MonoBehaviour
     protected BallisticData ballisticData;
     protected float timer;
     protected bool isInitialized = false;
+
+    void Awake()
+    {
+        CustomAwake();
+    }
 
     void Start()
     {
@@ -38,10 +50,10 @@ public class Ballistics : MonoBehaviour
         }
     }
 
-    public virtual void Initialize(Vector3 position, Vector3 velocity)
+    public virtual void Initialize(Vector3 position, Vector3 direction)
     {
         currentPosition = position;
-        currentVelocity = velocity;
+        currentVelocity = direction * ballisticData.muzzleVelocity;
         timer = lifeTime;
         isInitialized = true;
     }
@@ -77,6 +89,10 @@ public class Ballistics : MonoBehaviour
     }
 
     protected virtual void CustomStart()
+    {
+    }
+
+    protected virtual void CustomAwake()
     {
         ballisticData = this.GetComponent<BallisticData>();
     }

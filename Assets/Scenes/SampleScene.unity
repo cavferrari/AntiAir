@@ -794,7 +794,7 @@ GameObject:
   - component: {fileID: 435460251}
   - component: {fileID: 435460250}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: WhiteBellyPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,37 +865,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &607952223
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 607952224}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &607952224
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 607952223}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 121.77, y: 19.387054, z: -7.389791}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &657998284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1321,7 @@ GameObject:
   - component: {fileID: 1117384799}
   - component: {fileID: 1117384803}
   - component: {fileID: 1117384804}
+  - component: {fileID: 1117384805}
   m_Layer: 0
   m_Name: Mirage2000
   m_TagString: Untagged
@@ -1374,7 +1344,7 @@ MonoBehaviour:
   maxSpeed: 35
   minSpeed: 25
   gravityAcceleration: 0.1
-  gravityDeceleration: 0.12
+  gravityDeceleration: 0.13
   rotationSpeed: 250
   rollEntryDistance: 20
   rollEndDistance: 30
@@ -1466,7 +1436,7 @@ MonoBehaviour:
   entryRunCurveRadius: 50
   endRunCurveRadius: 100
   returnCurveRadius: 50
-  curveNumberPoints: 20
+  curveNumberPoints: 30
   distanceEntryRunMax: 200
   distanceEntryRunMin: 100
   distanceEndRunMax: 50
@@ -1486,19 +1456,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab25c8fb3d18c44d80c6ccf428b667d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5418844817395130694, guid: da57235c1e8f8ef44ad26e149fa66ef7,
-    type: 3}
-  muzzle: {fileID: 1946831428}
   muzzleFlashes:
   - {fileID: 1104567962}
   - {fileID: 113281929}
   - {fileID: 1730479999}
-  weaponsPrefabs:
-  - {fileID: 8568367215729597945, guid: 900769fb1b127b04299e891ae2065747, type: 3}
-  weaponsRails:
-  - {fileID: 1488518696}
-  - {fileID: 787538334}
-  rateOfFire: 10
+--- !u!114 &1117384805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117384798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021b3432a2338f2429f8a901c292a51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainWeapon:
+    point: {fileID: 1946831428}
+    weaponPrefab: {fileID: 5418844817395130694, guid: da57235c1e8f8ef44ad26e149fa66ef7,
+      type: 3}
+  hardPoints: []
 --- !u!4 &1150198551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 474c6ed2ccbf6d84882049e93e6bdaa7,
@@ -1888,37 +1866,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1946831428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1738221930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1738221931}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1738221931
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738221930}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 141.93, y: 19.387054, z: -7.389791}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1946831427
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,5 +1912,3 @@ SceneRoots:
   - {fileID: 1486206540}
   - {fileID: 320290393}
   - {fileID: 1117384802}
-  - {fileID: 1738221931}
-  - {fileID: 607952224}

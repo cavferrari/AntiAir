@@ -149,7 +149,6 @@ GameObject:
   - component: {fileID: 710783626131529476}
   - component: {fileID: -4372218904721726534}
   - component: {fileID: 7596456869256552766}
-  - component: {fileID: 2237533045178640549}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: Untagged
@@ -235,8 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a2ff9bbcb451643939053e477374b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ordenaceType: 1
-  distanceFromTargetTrigger: 250
+  ballisticsType: 1
+  rateFire: 2
+  distanceFromTargetTrigger: 200
   lifeTime: 3
 --- !u!114 &7596456869256552766
 MonoBehaviour:
@@ -250,31 +250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc25ef5041c80464b8c8f26e12a117ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleVelocity: 300
+  muzzleVelocity: 5
   mass: 0.02
   radius: 0.05
   dragCoefficient: 0.02
   mediumDensity: 1.225
---- !u!136 &2237533045178640549
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6011262790291555201}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.02
-  m_Height: 0.68
-  m_Direction: 2
-  m_Center: {x: 0.00005105138, y: 0.0001324974, z: 0.015983}

@@ -23,6 +23,7 @@ public class Path : MonoBehaviour
     private int turnCounter;
     private int orientation;
 
+
     void Awake()
     {
         Vector2 screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, Camera.main.transform.position.z));
@@ -80,20 +81,6 @@ public class Path : MonoBehaviour
     public int GetOrientation()
     {
         return orientation;
-    }
-
-    public bool IsAttacking(Vector3 playerPosition)
-    {
-        bool isAttacking;
-        if (orientation == 1)
-        {
-            isAttacking = playerPosition.x >= entryRunPosition.x && playerPosition.x <= endRunRollPosition.x;
-        }
-        else
-        {
-            isAttacking = playerPosition.x <= entryRunPosition.x && playerPosition.x >= endRunRollPosition.x;
-        }
-        return isAttacking;
     }
 
     public bool IsTurningDown(Vector3 playerPosition)

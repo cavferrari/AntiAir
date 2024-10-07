@@ -7,14 +7,21 @@ public class Rocket : Ballistics
 
     void Awake()
     {
+        base.CustomAwake();
         poolParent = this.transform.parent;
     }
 
-    public override void Initialize(Vector3 position, Vector3 velocity)
+    public override void Initialize(Vector3 position, Vector3 direction)
     {
         this.transform.parent = poolParent;
-        base.Initialize(position, velocity);
+        base.Initialize(position, direction);
         trailRenderer.enabled = true;
+    }
+
+    protected override void Move()
+    {
+        base.Move();
+        this.transform.Rotate(0.0f, 0.0f, 360f * Time.fixedDeltaTime);
     }
 
     protected override void Destroy()
