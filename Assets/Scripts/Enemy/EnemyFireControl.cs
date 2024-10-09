@@ -12,7 +12,7 @@ public class EnemyFireControl : MonoBehaviour
     private bool fire;
     private bool isFiringWeapons = false;
 
-    void Start()
+    void Awake()
     {
         ordenance = this.GetComponent<Ordenance>();
         enemy = this.GetComponent<Enemy>();
@@ -24,6 +24,18 @@ public class EnemyFireControl : MonoBehaviour
         if (timer > 0f)
         {
             timer -= Time.deltaTime;
+        }
+    }
+
+    public void Reset()
+    {
+        ordenance.Reset();
+        timer = 0;
+        fire = false;
+        isFiringWeapons = false;
+        for (int i = 0; i < muzzleFlashes.Length; i++)
+        {
+            muzzleFlashes[i].SetActive(false);
         }
     }
 

@@ -8,6 +8,7 @@ public class Rocket : Ballistics
     void Awake()
     {
         base.CustomAwake();
+        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
         poolParent = this.transform.parent;
     }
 
@@ -16,6 +17,13 @@ public class Rocket : Ballistics
         this.transform.parent = poolParent;
         base.Initialize(position, direction, plane);
         trailRenderer.enabled = true;
+    }
+
+    public override void Reset()
+    {
+        this.transform.parent = poolParent;
+        trailRenderer.enabled = false;
+        base.Reset();
     }
 
     protected override void Move()
@@ -36,7 +44,6 @@ public class Rocket : Ballistics
     protected override void CustomStart()
     {
         base.CustomStart();
-        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
         trailRenderer.enabled = false;
     }
 }

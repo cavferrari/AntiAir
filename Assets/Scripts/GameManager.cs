@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private float topBorder;
     private float timer = 0f;
     private float spawnYRotation;
+    private GameObject newEnemy;
 
     void Start()
     {
@@ -25,11 +26,14 @@ public class GameManager : MonoBehaviour
     {
         if (timer <= 0f)
         {
-            ObjectPooling.Instance.Get(enemiesPrefabs[0].name + "Pool",
-                                       GenerateRandonSpawnPosition(),
-                                       Quaternion.Euler(new Vector3(0f, spawnYRotation, 0f)));
-            timer = Random.Range(minSpawnTime, maxSpawnTime);
-
+            if (ObjectPooling.Instance.GetPoolFreeListSize(enemiesPrefabs[0].name + "Pool") > 0)
+            {
+                newEnemy = ObjectPooling.Instance.Get(enemiesPrefabs[0].name + "Pool",
+                                                      GenerateRandonSpawnPosition(),
+                                                      Quaternion.Euler(new Vector3(0f, spawnYRotation, 0f)));
+                newEnemy.GetComponent<Enemy>().Initialize();
+                timer = Random.Range(minSpawnTime, maxSpawnTime);
+            }
         }
         if (timer > 0f)
         {

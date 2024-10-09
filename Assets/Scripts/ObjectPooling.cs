@@ -56,6 +56,21 @@ public class ObjectPooling : Singleton<ObjectPooling>
     return null;
   }
 
+  public int GetPoolFreeListSize(string poolName)
+  {
+    for (int i = 0; i < groupPools.Count; i++)
+    {
+      for (int j = 0; j < groupPools[i].Length; j++)
+      {
+        if (groupPools[i][j].GetName().Equals(poolName))
+        {
+          return groupPools[i][j].GetFreeListSize();
+        }
+      }
+    }
+    return 0;
+  }
+
   public void ReturnObject(GameObject pooledObject)
   {
     ReturnObject(GetPoolName(pooledObject), pooledObject);
@@ -103,6 +118,11 @@ public class ObjectPooling : Singleton<ObjectPooling>
       return name;
     }
 
+    public int GetFreeListSize()
+    {
+      return freeList.Count;
+    }
+
     public void Initialize(Transform parent)
     {
       name = prefab.name + "Pool";
@@ -148,6 +168,10 @@ public class ObjectPooling : Singleton<ObjectPooling>
     {
       case "Bullets":
         return 1000;
+      case "Rockets":
+        return 100;
+      case "Enemies":
+        return 10;
       default:
         return 10;
     }

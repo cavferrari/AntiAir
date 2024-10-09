@@ -83,6 +83,19 @@ public class Path : MonoBehaviour
         return orientation;
     }
 
+    public void Reset()
+    {
+        path.Clear();
+        returnPosition = Vector3.zero;
+        finishPosition = Vector3.zero;
+        entryRunPosition = Vector3.zero;
+        endRunPosition = Vector3.zero;
+        escapePosition = Vector3.zero;
+        entryRunRollPosition = Vector3.zero;
+        endRunRollPosition = Vector3.zero;
+        turnCounter = 0;
+    }
+
     public bool IsTurningDown(Vector3 playerPosition)
     {
         bool isTurning = false;

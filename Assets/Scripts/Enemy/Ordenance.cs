@@ -17,19 +17,29 @@ public class Ordenance : MonoBehaviour
     private Ballistics activeWeaponBallistics;
     private int weaponsQuantity;
 
-    void Start()
+    public void Reset()
     {
         weaponsQuantity = 0;
         for (int i = 0; i < hardPoints.Length; i++)
         {
-            GameObject weapon = ObjectPooling.Instance.Get(hardPoints[i].weaponPrefab.name + "Pool",
-                                                           hardPoints[i].point.position,
-                                                           hardPoints[i].point.rotation);
-            weapon.transform.parent = hardPoints[i].point;
-            weapon.SetActive(true);
-            weaponsQuantity += 1;
-            activeHardPoint = hardPoints[i];
-            activeWeaponBallistics = hardPoints[i].point.GetComponentInChildren<Ballistics>();
+            if (hardPoints[i].point.childCount == 0)
+            {
+                if (ObjectPooling.Instance.GetPoolFreeListSize(hardPoints[i].weaponPrefab.name + "Pool") > 0)
+                {
+                    GameObject weapon = ObjectPooling.Instance.Get(hardPoints[i].weaponPrefab.name + "Pool",
+                                                                   hardPoints[i].point.position,
+                                                                   hardPoints[i].point.rotation);
+                    weapon.transform.parent = hardPoints[i].point;
+                    weapon.SetActive(true);
+                    weaponsQuantity += 1;
+                    activeHardPoint = hardPoints[i];
+                    activeWeaponBallistics = hardPoints[i].point.GetComponentInChildren<Ballistics>();
+                }
+            }
+            else
+            {
+                weaponsQuantity += 1;
+            }
         }
         if (activeHardPoint == null)
         {
@@ -85,9 +95,12 @@ public class Ordenance : MonoBehaviour
 
     public void Fire(float targetZPlane)
     {
-        GameObject newBullet = ObjectPooling.Instance.Get(activeHardPoint.weaponPrefab.name + "Pool",
-                                                          activeHardPoint.point.position,
-                                                          activeHardPoint.point.rotation);
-        newBullet.GetComponent<Ballistics>().Initialize(activeHardPoint.point.position, activeHardPoint.point.forward, targetZPlane);
+        if (ObjectPooling.Instance.GetPoolFreeListSize(activeHardPoint.weaponPrefab.name + "Pool") > 0)
+        {
+            GameObject newBullet = ObjectPooling.Instance.Get(activeHardPoint.weaponPrefab.name + "Pool",
+                                                              activeHardPoint.point.position,
+                                                              activeHardPoint.point.rotation);
+            newBullet.GetComponent<Ballistics>().Initialize(activeHardPoint.point.position, activeHardPoint.point.forward, targetZPlane);
+        }
     }
 }

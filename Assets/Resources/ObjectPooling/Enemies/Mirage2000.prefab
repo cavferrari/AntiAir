@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1761466451198970164}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RailRight1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4709076994321833738}
   - component: {fileID: 7300910999215967593}
   - component: {fileID: 2651861251680447070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlash01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5309517621422609120}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 6408074748292400661}
   - component: {fileID: 6876151717324822307}
   - component: {fileID: 2080735592693387864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlash03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6720763946769030523}
   - component: {fileID: 3973648463406326836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 492441473889534391}
   - component: {fileID: 4391856746901793249}
   - component: {fileID: 2090784234617604481}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlash02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8374128970080513954}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RailLeft1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,11 +492,13 @@ GameObject:
   - component: {fileID: 8542939690618075556}
   - component: {fileID: 9188620913576243333}
   - component: {fileID: 1950076524084344731}
+  - component: {fileID: -7760381657494301845}
+  - component: {fileID: 9059052330635242022}
   - component: {fileID: 2156988429884328300}
   - component: {fileID: 6947827600214465309}
   - component: {fileID: 4843609539371937109}
   - component: {fileID: 1549507287940316661}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mirage2000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,6 +575,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &-7760381657494301845
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762270471844350100}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &9059052330635242022
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762270471844350100}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6298964414259130571, guid: d840c94cdd564fc498e030957c3e194a, type: 3}
 --- !u!114 &2156988429884328300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,7 +705,7 @@ MonoBehaviour:
   - point: {fileID: 8374128970080513954}
     weaponPrefab: {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231,
       type: 3}
-  - point: {fileID: 8374128970080513954}
+  - point: {fileID: 1761466451198970164}
     weaponPrefab: {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231,
       type: 3}
 --- !u!1 &8140774563425828388
@@ -668,7 +719,7 @@ GameObject:
   - component: {fileID: 7389675498172342650}
   - component: {fileID: 2271302331117878693}
   - component: {fileID: 2520122691083042984}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WhiteBellyPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}

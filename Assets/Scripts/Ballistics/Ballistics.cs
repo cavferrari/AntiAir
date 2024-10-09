@@ -51,6 +51,11 @@ public class Ballistics : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        Destroy();
+    }
+
     public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
     {
         currentPosition = position;
@@ -58,6 +63,13 @@ public class Ballistics : MonoBehaviour
         zPlane = plane;
         timer = lifeTime;
         isInitialized = true;
+    }
+
+    public virtual void Reset()
+    {
+        timer = 0f;
+        isInitialized = false;
+        ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 
     protected virtual void Move()
@@ -74,8 +86,8 @@ public class Ballistics : MonoBehaviour
     {
         if (currentPosition.y <= 0 || timer <= 0f)
         {
-            ObjectPooling.Instance.ReturnObject(this.gameObject);
             isInitialized = false;
+            ObjectPooling.Instance.ReturnObject(this.gameObject);
         }
     }
 

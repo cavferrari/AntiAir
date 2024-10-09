@@ -10,6 +10,8 @@ public class Bomb : Ballistics
     {
         base.CustomAwake();
         poolParent = this.transform.parent;
+        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
+        rb = this.GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -27,6 +29,14 @@ public class Bomb : Ballistics
         rb.AddForce(direction * ballisticData.muzzleVelocity);
         trailRenderer.enabled = true;
         isInitialized = true;
+    }
+
+    public override void Reset()
+    {
+        this.transform.parent = poolParent;
+        rb.isKinematic = true;
+        trailRenderer.enabled = false;
+        base.Reset();
     }
 
     protected override void Move()
@@ -52,9 +62,7 @@ public class Bomb : Ballistics
     protected override void CustomStart()
     {
         base.CustomStart();
-        rb = this.GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
         trailRenderer.enabled = false;
     }
 }

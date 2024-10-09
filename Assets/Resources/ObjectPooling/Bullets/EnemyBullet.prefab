@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 7752275484368868992}
   - component: {fileID: -8835337967953271447}
   - component: {fileID: 8863190474277785133}
-  m_Layer: 0
-  m_Name: FighterBullet
+  m_Layer: 7
+  m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,7 +206,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

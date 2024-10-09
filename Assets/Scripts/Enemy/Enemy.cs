@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float zAxisRotation;
 
+    private Rigidbody rb;
+    private TrailRenderer trailRenderer;
     private Path path;
     private EnemyFireControl enemyFireControl;
     private Quaternion targetRotation;
@@ -23,40 +25,76 @@ public class Enemy : MonoBehaviour
     private Vector3 up = Vector3.up;
     private GameObject[] targets;
     private bool isAttacking = false;
+    private bool isInitialized = false;
+    private bool isDestroyed = false;
 
-    void Start()
+    void Awake()
     {
+        rb = this.GetComponent<Rigidbody>();
+        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
         path = this.GetComponent<Path>();
         enemyFireControl = this.GetComponent<EnemyFireControl>();
-        targets = GameObject.FindGameObjectsWithTag("Target");
     }
 
     void Update()
     {
-        if (path.GetPathCount() != 0 && indexCount < path.GetPathCount())
+        if (isInitialized && !isDestroyed)
         {
-            UpdatePitch();
-            UpdateYaw();
-            this.transform.position = Vector3.MoveTowards(this.transform.position, path.GetPathPoint(indexCount), speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path.GetPathPoint(indexCount)) < 0.001f)
+            if (path.GetPathCount() != 0 && indexCount < path.GetPathCount())
             {
-                this.transform.position = path.GetPathPoint(indexCount);
-                indexCount += 1;
+                UpdatePitch();
+                UpdateYaw();
+                this.transform.position = Vector3.MoveTowards(this.transform.position, path.GetPathPoint(indexCount), speed * Time.deltaTime);
+                if (Vector3.Distance(this.transform.position, path.GetPathPoint(indexCount)) < 0.001f)
+                {
+                    this.transform.position = path.GetPathPoint(indexCount);
+                    indexCount += 1;
+                }
+                UpdateFire();
             }
-            UpdateFire();
+            else
+            {
+                currentTargetPosition = GetNewTarget();
+                path.GeneratePath(this.transform.position, currentTargetPosition, rollEntryDistance, rollEndDistance);
+                indexCount = 0;
+            }
+            zAxisRotation = this.transform.rotation.eulerAngles.z;
         }
-        else
+        if (Input.GetMouseButton(1))
         {
-            currentTargetPosition = GetNewTarget();
-            path.GeneratePath(this.transform.position, currentTargetPosition, rollEntryDistance, rollEndDistance);
-            indexCount = 0;
+            StartCoroutine(Destroy());
         }
-        zAxisRotation = this.transform.rotation.eulerAngles.z;
     }
 
     void FixedUpdate()
     {
-        UpdateSpeed();
+        if (isInitialized)
+        {
+            UpdateSpeed();
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!isDestroyed)
+        {
+            StartCoroutine(Destroy());
+        }
+    }
+
+    public void Initialize()
+    {
+        path.Reset();
+        enemyFireControl.Reset();
+        speed = maxSpeed;
+        currentTargetPosition = Vector3.zero;
+        indexCount = 0;
+        isAttacking = false;
+        trailRenderer.enabled = true;
+        rb.isKinematic = true;
+        targets = GameObject.FindGameObjectsWithTag("Target");
+        isDestroyed = false;
+        isInitialized = true;
     }
 
     public Vector3 Velocity()
@@ -238,5 +276,25 @@ public class Enemy : MonoBehaviour
     private Vector3 GetNewTarget()
     {
         return targets[Random.Range(0, targets.Length - 1)].transform.position;
+    }
+
+    private IEnumerator Destroy()
+    {
+        isDestroyed = true;
+        enemyFireControl.SetFire(false);
+        rb.isKinematic = false;
+        trailRenderer.enabled = false;
+        rb.AddForce((path.GetPathPoint(indexCount) - this.transform.position).normalized * speed * 4f);
+        float elapsedTime = 0f;
+        float time = 10f;
+        float xAxis = Random.Range(0f, 2f);
+        float yAxis = Random.Range(0f, 2f);
+        float zAxis = Random.Range(0f, 2f);
+        while (this.transform.position.y > 0f && elapsedTime < time)
+        {
+            this.transform.Rotate(xAxis * Time.fixedDeltaTime, yAxis * Time.fixedDeltaTime, zAxis * Time.fixedDeltaTime);
+            yield return null;
+        }
+        ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 }
