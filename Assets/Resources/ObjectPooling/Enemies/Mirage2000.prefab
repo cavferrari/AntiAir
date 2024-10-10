@@ -583,7 +583,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7762270471844350100}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -646,6 +646,10 @@ MonoBehaviour:
   rotationPauseTime: 1.5
   speed: 40
   zAxisRotation: 0
+  smokePrefab: {fileID: 6834711315120716856, guid: 74ab292c471a4c24dab1de5490dd9dee,
+    type: 3}
+  explosionPrefab: {fileID: 3164723476481158823, guid: 3b45373235869f444bbd39e82dd0cb13,
+    type: 3}
 --- !u!114 &6947827600214465309
 MonoBehaviour:
   m_ObjectHideFlags: 0

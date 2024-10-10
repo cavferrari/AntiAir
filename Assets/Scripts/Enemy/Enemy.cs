@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public float rotationPauseTime = 2f;
     public float speed;
     public float zAxisRotation;
+    public GameObject smokePrefab;
+    public GameObject explosionPrefab;
 
     private Rigidbody rb;
     private TrailRenderer trailRenderer;
@@ -60,7 +62,7 @@ public class Enemy : MonoBehaviour
             }
             zAxisRotation = this.transform.rotation.eulerAngles.z;
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
             StartCoroutine(Destroy());
         }
@@ -284,17 +286,26 @@ public class Enemy : MonoBehaviour
         enemyFireControl.SetFire(false);
         rb.isKinematic = false;
         trailRenderer.enabled = false;
-        rb.AddForce((path.GetPathPoint(indexCount) - this.transform.position).normalized * speed * 4f);
+        GameObject smoke = ObjectPooling.Instance.Get(smokePrefab.name + "Pool",
+                                                      this.transform.position,
+                                                      Quaternion.identity);
+        smoke.GetComponent<FxEffect>().Play(this.transform);
+        rb.AddForce(4f * speed * (path.GetPathPoint(indexCount) - this.transform.position).normalized);
         float elapsedTime = 0f;
         float time = 10f;
-        float xAxis = Random.Range(0f, 2f);
-        float yAxis = Random.Range(0f, 2f);
-        float zAxis = Random.Range(0f, 2f);
+        float xAxis = Random.Range(0f, 15f);
+        float yAxis = Random.Range(0f, 15f);
+        float zAxis = Random.Range(0f, 15f);
         while (this.transform.position.y > 0f && elapsedTime < time)
         {
             this.transform.Rotate(xAxis * Time.fixedDeltaTime, yAxis * Time.fixedDeltaTime, zAxis * Time.fixedDeltaTime);
             yield return null;
         }
+        GameObject explosion = ObjectPooling.Instance.Get(explosionPrefab.name + "Pool",
+                                                          this.transform.position,
+                                                          Quaternion.identity);
+        explosion.GetComponent<FxEffect>().Play();
+        smoke.GetComponent<FxEffect>().Stop();
         ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 }
