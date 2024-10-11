@@ -642,7 +642,7 @@ MonoBehaviour:
   gravityDeceleration: 0.13
   rotationSpeed: 250
   rollEntryDistance: 20
-  rollEndDistance: 30
+  rollEndDistance: 50
   rotationPauseTime: 1.5
   speed: 40
   zAxisRotation: 0
@@ -707,7 +707,7 @@ MonoBehaviour:
       type: 3}
   hardPoints:
   - point: {fileID: 8374128970080513954}
-    weaponPrefab: {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231,
+    weaponPrefab: {fileID: 8568367215729597945, guid: 900769fb1b127b04299e891ae2065747,
       type: 3}
   - point: {fileID: 1761466451198970164}
     weaponPrefab: {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231,

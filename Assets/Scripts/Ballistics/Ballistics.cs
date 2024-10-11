@@ -3,7 +3,7 @@ using UnityEngine;
 public class Ballistics : MonoBehaviour
 {
     [System.Serializable]
-    public class BallisticsEffect
+    public class BallisticsFxEffect
     {
         public GameObject prefab;
         public bool alwaysCreate = true;
@@ -18,8 +18,11 @@ public class Ballistics : MonoBehaviour
     public float rateFire = 1f;
     public float distanceFromTargetTrigger = 200f;
     public float lifeTime = 3f;
-    public BallisticsEffect impactExplosion;
+    public BallisticsFxEffect impactExplosion;
 
+    protected Rigidbody rb;
+    protected TrailRenderer trailRenderer;
+    protected Transform poolParent;
     protected Vector3 currentPosition;
     protected Vector3 currentVelocity;
     protected Vector3 newPosition = Vector3.zero;
@@ -67,18 +70,19 @@ public class Ballistics : MonoBehaviour
 
     public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
     {
+        this.transform.parent = poolParent;
         currentPosition = position;
         currentVelocity = direction * ballisticData.muzzleVelocity;
         zPlane = plane;
         lifeTimer = lifeTime;
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.velocity = Vector3.zero;
+            rb.AddForce(currentVelocity);
+        }
+        trailRenderer.enabled = true;
         isInitialized = true;
-    }
-
-    public virtual void Reset()
-    {
-        lifeTimer = 0f;
-        isInitialized = false;
-        ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 
     protected virtual void Move()
@@ -99,6 +103,8 @@ public class Ballistics : MonoBehaviour
             {
                 CreateImpactEffect();
             }
+            if (rb != null) rb.isKinematic = true;
+            trailRenderer.enabled = false;
             isInitialized = false;
             ObjectPooling.Instance.ReturnObject(this.gameObject);
         }
@@ -136,6 +142,11 @@ public class Ballistics : MonoBehaviour
 
     protected virtual void CustomAwake()
     {
+        rb = this.GetComponent<Rigidbody>();
+        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
+        poolParent = this.transform.parent;
         ballisticData = this.GetComponent<BallisticData>();
+        if (rb != null) rb.isKinematic = true;
+        trailRenderer.enabled = false;
     }
 }

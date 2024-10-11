@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballisticsType: 2
   rateFire: 3
-  distanceFromTargetTrigger: 100
+  distanceFromTargetTrigger: 200
   lifeTime: -1
   impactExplosion:
     prefab: {fileID: 0}
