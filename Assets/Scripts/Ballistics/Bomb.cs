@@ -48,10 +48,14 @@ public class Bomb : Ballistics
         //CheckHit();
     }
 
-    protected override void Destroy()
+    protected override void Destroy(bool isCollision = false)
     {
-        if (this.transform.position.y <= 0)
+        if (isCollision || this.transform.position.y <= 0)
         {
+            if (!isCollision && currentPosition.y <= 0)
+            {
+                CreateImpactEffect();
+            }
             trailRenderer.enabled = false;
             rb.isKinematic = false;
             ObjectPooling.Instance.ReturnObject(this.gameObject);

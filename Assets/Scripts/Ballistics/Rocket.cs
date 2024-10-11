@@ -32,13 +32,13 @@ public class Rocket : Ballistics
         this.transform.Rotate(0.0f, 0.0f, 360f * Time.fixedDeltaTime);
     }
 
-    protected override void Destroy()
+    protected override void Destroy(bool isCollision = false)
     {
-        if (currentPosition.y <= 0 || timer <= 0f)
+        if (isCollision || currentPosition.y <= 0 || lifeTimer <= 0f)
         {
             trailRenderer.enabled = false;
         }
-        base.Destroy();
+        base.Destroy(isCollision);
     }
 
     protected override void CustomStart()

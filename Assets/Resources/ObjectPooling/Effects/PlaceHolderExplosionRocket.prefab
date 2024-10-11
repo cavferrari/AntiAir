@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6930489996041445767}
   - component: {fileID: -8239104037301197276}
   m_Layer: 0
-  m_Name: PlaceHolderExplosionBullet
+  m_Name: PlaceHolderExplosionRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164723476481158823}
   serializedVersion: 8
-  lengthInSec: 0.5
+  lengthInSec: 1.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1538,8 +1538,8 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     speedRange: {x: 0, y: 1}
-    tilesX: 8
-    tilesY: 8
+    tilesX: 5
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -4836,7 +4836,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0df88fc46333a6f4e910bfa8d171e57e, type: 2}
+  - {fileID: 2100000, guid: 42d72664c04d3264eb999b487b5277ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -25,7 +25,7 @@ public class Ballistics : MonoBehaviour
     protected Vector3 newPosition = Vector3.zero;
     protected Vector3 newVelocity = Vector3.zero;
     protected BallisticData ballisticData;
-    protected float timer;
+    protected float lifeTimer;
     protected float zPlane;
     protected bool isInitialized = false;
 
@@ -52,27 +52,17 @@ public class Ballistics : MonoBehaviour
         if (isInitialized)
         {
             Move();
-            if (timer > 0f)
+            if (lifeTimer > 0f)
             {
-                timer -= Time.fixedDeltaTime;
+                lifeTimer -= Time.fixedDeltaTime;
             }
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (impactExplosion.prefab != null)
-        {
-            bool createEffect = impactExplosion.alwaysCreate ? true : Random.Range(0, 2) == 1 ? true : false;
-            if (createEffect)
-            {
-                GameObject explosion = ObjectPooling.Instance.Get(impactExplosion.prefab.name + "Pool",
-                                                                  this.transform.position,
-                                                                  Quaternion.identity);
-                explosion.GetComponent<FxEffect>().Play();
-            }
-        }
-        Destroy();
+        CreateImpactEffect();
+        Destroy(true);
     }
 
     public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
@@ -80,13 +70,13 @@ public class Ballistics : MonoBehaviour
         currentPosition = position;
         currentVelocity = direction * ballisticData.muzzleVelocity;
         zPlane = plane;
-        timer = lifeTime;
+        lifeTimer = lifeTime;
         isInitialized = true;
     }
 
     public virtual void Reset()
     {
-        timer = 0f;
+        lifeTimer = 0f;
         isInitialized = false;
         ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
@@ -101,12 +91,31 @@ public class Ballistics : MonoBehaviour
         this.transform.position = currentPosition;
     }
 
-    protected virtual void Destroy()
+    protected virtual void Destroy(bool isCollision = false)
     {
-        if (currentPosition.y <= 0 || timer <= 0f)
+        if (isCollision || currentPosition.y <= 0 || lifeTimer <= 0f)
         {
+            if (!isCollision && currentPosition.y <= 0)
+            {
+                CreateImpactEffect();
+            }
             isInitialized = false;
             ObjectPooling.Instance.ReturnObject(this.gameObject);
+        }
+    }
+
+    protected virtual void CreateImpactEffect()
+    {
+        if (impactExplosion.prefab != null)
+        {
+            bool createEffect = impactExplosion.alwaysCreate ? true : Random.Range(0, 2) == 1 ? true : false;
+            if (createEffect)
+            {
+                GameObject explosion = ObjectPooling.Instance.Get(impactExplosion.prefab.name + "Pool",
+                                                                  this.transform.position,
+                                                                  Quaternion.identity);
+                explosion.GetComponent<FxEffect>().Play();
+            }
         }
     }
 
