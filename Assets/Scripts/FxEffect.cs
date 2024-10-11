@@ -3,11 +3,13 @@ using UnityEngine;
 public class FxEffect : MonoBehaviour
 {
     private ParticleSystem effect;
+    private ParticleSystem.MainModule mainModule;
     private Transform poolParent;
 
     void Awake()
     {
         effect = this.GetComponent<ParticleSystem>();
+        mainModule = effect.main;
         poolParent = this.transform.parent;
     }
 
@@ -17,6 +19,11 @@ public class FxEffect : MonoBehaviour
         {
             ObjectPooling.Instance.ReturnObject(this.gameObject);
         }
+    }
+
+    public void SetStartSize(float startSizeMin, float startSizeMax)
+    {
+        mainModule.startSize = new ParticleSystem.MinMaxCurve(startSizeMin, startSizeMax);
     }
 
     public void Play(Transform parent = null)

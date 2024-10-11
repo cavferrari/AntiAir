@@ -6,6 +6,8 @@ public class Ballistics : MonoBehaviour
     public class BallisticsFxEffect
     {
         public GameObject prefab;
+        public float startSizeMin = 1f;
+        public float startSizeMax = 1f;
         public bool alwaysCreate = true;
     }
 
@@ -114,13 +116,15 @@ public class Ballistics : MonoBehaviour
     {
         if (impactExplosion.prefab != null)
         {
-            bool createEffect = impactExplosion.alwaysCreate ? true : Random.Range(0, 2) == 1 ? true : false;
+            bool createEffect = impactExplosion.alwaysCreate || (Random.Range(0, 2) == 1);
             if (createEffect)
             {
                 GameObject explosion = ObjectPooling.Instance.Get(impactExplosion.prefab.name + "Pool",
                                                                   this.transform.position,
                                                                   Quaternion.identity);
-                explosion.GetComponent<FxEffect>().Play();
+                FxEffect fxEffect = explosion.GetComponent<FxEffect>();
+                fxEffect.SetStartSize(impactExplosion.startSizeMin, impactExplosion.startSizeMax);
+                fxEffect.Play();
             }
         }
     }
