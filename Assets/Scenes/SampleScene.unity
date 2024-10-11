@@ -1037,6 +1037,11 @@ PrefabInstance:
       propertyPath: TargetPoint
       value: 
       objectReference: {fileID: 834741627}
+    - target: {fileID: 8619156233988032492, guid: 6d9103e0ce3284a45b25458249e3369b,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     m_RemovedGameObjects: []

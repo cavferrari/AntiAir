@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Ballistics : MonoBehaviour
 {
+    [System.Serializable]
+    public class BallisticsEffect
+    {
+        public GameObject prefab;
+        public bool alwaysCreate = true;
+    }
+
     public enum BallisticsType
     {
         BULLET, ROCKET, BOMB
@@ -11,6 +18,7 @@ public class Ballistics : MonoBehaviour
     public float rateFire = 1f;
     public float distanceFromTargetTrigger = 200f;
     public float lifeTime = 3f;
+    public BallisticsEffect impactExplosion;
 
     protected Vector3 currentPosition;
     protected Vector3 currentVelocity;
@@ -53,6 +61,17 @@ public class Ballistics : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (impactExplosion.prefab != null)
+        {
+            bool createEffect = impactExplosion.alwaysCreate ? true : Random.Range(0, 2) == 1 ? true : false;
+            if (createEffect)
+            {
+                GameObject explosion = ObjectPooling.Instance.Get(impactExplosion.prefab.name + "Pool",
+                                                                  this.transform.position,
+                                                                  Quaternion.identity);
+                explosion.GetComponent<FxEffect>().Play();
+            }
+        }
         Destroy();
     }
 
@@ -91,8 +110,7 @@ public class Ballistics : MonoBehaviour
         }
     }
 
-    //Did we hit a target
-    protected virtual void CheckHit()
+    /* protected virtual void CheckHit()
     {
         Vector3 fireDirection = (newPosition - currentPosition).normalized;
         float fireDistance = Vector3.Distance(newPosition, currentPosition);
@@ -101,7 +119,7 @@ public class Ballistics : MonoBehaviour
         {
             Debug.Log("Hit target!");
         }
-    }
+    } */
 
     protected virtual void CustomStart()
     {

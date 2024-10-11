@@ -234,6 +234,9 @@ MonoBehaviour:
   rateFire: 3
   distanceFromTargetTrigger: 100
   lifeTime: -1
+  impactExplosion:
+    prefab: {fileID: 0}
+    alwaysCreate: 1
 --- !u!114 &4507161343985110370
 MonoBehaviour:
   m_ObjectHideFlags: 0

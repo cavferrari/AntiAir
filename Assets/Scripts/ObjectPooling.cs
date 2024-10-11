@@ -30,7 +30,7 @@ public class ObjectPooling : Singleton<ObjectPooling>
       pools = new Pool[resources.Length];
       for (int j = 0; j < resources.Length; j++)
       {
-        pools[j] = new Pool(resources[j], GetPoolSize(poolGroup.name));
+        pools[j] = new Pool(resources[j], GetPoolSize(resources[j].name));
         poolParent = new GameObject(pools[j].prefab.name + "Pool");
         poolParent.transform.position = Vector3.zero;
         poolParent.transform.rotation = Quaternion.identity;
@@ -164,16 +164,13 @@ public class ObjectPooling : Singleton<ObjectPooling>
 
   private int GetPoolSize(string name)
   {
-    switch (name)
+    return name switch
     {
-      case "Bullets":
-        return 1000;
-      case "Rockets":
-        return 100;
-      case "Enemies":
-        return 10;
-      default:
-        return 10;
-    }
+      "TurretBullet" => 1000,
+      "EnemyBullet" => 1000,
+      "Rocket" => 100,
+      "PlaceHolderExplosionBullet" => 1000,
+      _ => 10,
+    };
   }
 }

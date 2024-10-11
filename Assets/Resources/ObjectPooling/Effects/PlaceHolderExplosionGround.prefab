@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6930489996041445767}
   - component: {fileID: -8239104037301197276}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: PlaceHolderExplosionGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1429,7 +1429,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     mode: 0
-    timeMode: 2
+    timeMode: 0
     fps: 20
     frameOverTime:
       serializedVersion: 2

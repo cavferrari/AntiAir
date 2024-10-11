@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5418844817395130694}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!23 &3944736188364867491
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5418844817395130694}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -228,6 +228,10 @@ MonoBehaviour:
   rateFire: 10
   distanceFromTargetTrigger: 200
   lifeTime: 2
+  impactExplosion:
+    prefab: {fileID: 3164723476481158823, guid: e01776a82f93bf046965f3ef85f3f465,
+      type: 3}
+    alwaysCreate: 0
 --- !u!114 &8863190474277785133
 MonoBehaviour:
   m_ObjectHideFlags: 0
