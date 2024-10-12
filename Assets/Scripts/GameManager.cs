@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     public float minSpawnTime = 1f;
     public float maxSpawnTime = 2f;
     public float minSpawnVerticalValue = 100f;
     public GameObject[] enemiesPrefabs;
+    public GameObject postExplosionSmokePrefab;
+    public float postExplosionSmokeTime = 10f;
 
     private float horizontalBorderLeft;
     private float horizontalBorderRight;
@@ -13,6 +16,11 @@ public class GameManager : MonoBehaviour
     private float timer = 0f;
     private float spawnYRotation;
     private GameObject newEnemy;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -39,6 +47,14 @@ public class GameManager : MonoBehaviour
         {
             timer -= Time.deltaTime;
         }
+    }
+
+    public void CreatePostExplosionSmoke(Vector3 position)
+    {
+        GameObject smoke = ObjectPooling.Instance.Get(postExplosionSmokePrefab.name + "Pool",
+                                                      position,
+                                                      Quaternion.identity);
+        smoke.GetComponent<FxEffect>().Play(Random.Range(postExplosionSmokeTime - 2f, postExplosionSmokeTime + 2f));
     }
 
     private Vector3 GenerateRandonSpawnPosition()

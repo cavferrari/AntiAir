@@ -5,6 +5,8 @@ public class FxEffect : MonoBehaviour
     private ParticleSystem effect;
     private ParticleSystem.MainModule mainModule;
     private Transform poolParent;
+    private bool hasLifeTime = false;
+    private float lifeTimer = -1;
 
     void Awake()
     {
@@ -19,6 +21,18 @@ public class FxEffect : MonoBehaviour
         {
             ObjectPooling.Instance.ReturnObject(this.gameObject);
         }
+        if (hasLifeTime)
+        {
+            if (lifeTimer <= 0)
+            {
+                Stop();
+                hasLifeTime = false;
+            }
+            if (lifeTimer > 0f)
+            {
+                lifeTimer -= Time.deltaTime;
+            }
+        }
     }
 
     public void SetStartSize(float startSizeMin, float startSizeMax)
@@ -32,6 +46,13 @@ public class FxEffect : MonoBehaviour
         {
             this.transform.parent = parent;
         }
+        effect.Play();
+    }
+
+    public void Play(float lifeTime)
+    {
+        hasLifeTime = true;
+        lifeTimer = lifeTime;
         effect.Play();
     }
 

@@ -306,6 +306,7 @@ public class Enemy : MonoBehaviour
                                                           Quaternion.identity);
         explosion.GetComponent<FxEffect>().Play();
         smoke.GetComponent<FxEffect>().Stop();
+        GameManager.Instance.CreatePostExplosionSmoke(this.transform.position);
         ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 }

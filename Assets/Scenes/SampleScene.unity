@@ -1165,6 +1165,9 @@ MonoBehaviour:
   minSpawnVerticalValue: 200
   enemiesPrefabs:
   - {fileID: 7762270471844350100, guid: 2e4dc599173c101469935378acf7a6eb, type: 3}
+  postExplosionSmokePrefab: {fileID: 2174750527991755743, guid: d633251e5bde0a149bdea9aea08ac203,
+    type: 3}
+  postExplosionSmokeTime: 15
 --- !u!4 &2045686050
 Transform:
   m_ObjectHideFlags: 0
