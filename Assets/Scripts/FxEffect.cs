@@ -1,64 +1,32 @@
 using UnityEngine;
 
-public class FxEffect : MonoBehaviour
+public class FxEffect : Effect<ParticleSystem>
 {
-    private ParticleSystem effect;
     private ParticleSystem.MainModule mainModule;
-    private Transform poolParent;
-    private bool hasLifeTime = false;
-    private float lifeTimer = -1;
 
-    void Awake()
-    {
-        effect = this.GetComponent<ParticleSystem>();
-        mainModule = effect.main;
-        poolParent = this.transform.parent;
-    }
-
-    void Update()
-    {
-        if (!effect.IsAlive())
-        {
-            ObjectPooling.Instance.ReturnObject(this.gameObject);
-        }
-        if (hasLifeTime)
-        {
-            if (lifeTimer <= 0)
-            {
-                Stop();
-                hasLifeTime = false;
-            }
-            if (lifeTimer > 0f)
-            {
-                lifeTimer -= Time.deltaTime;
-            }
-        }
-    }
-
-    public void SetStartSize(float startSizeMin, float startSizeMax)
+    public override void SetStartSize(float startSizeMin, float startSizeMax)
     {
         mainModule.startSize = new ParticleSystem.MinMaxCurve(startSizeMin, startSizeMax);
     }
 
-    public void Play(Transform parent = null)
+    public override bool CustomDestroyCondition()
     {
-        if (parent != null)
-        {
-            this.transform.parent = parent;
-        }
+        return !effect.IsAlive();
+    }
+
+    public override void CustomPlay()
+    {
         effect.Play();
     }
 
-    public void Play(float lifeTime)
+    public override void CustomStop()
     {
-        hasLifeTime = true;
-        lifeTimer = lifeTime;
-        effect.Play();
-    }
-
-    public void Stop()
-    {
-        this.transform.parent = poolParent;
         effect.Stop();
+    }
+
+    public override void CustomAwake()
+    {
+        base.CustomAwake();
+        mainModule = effect.main;
     }
 }

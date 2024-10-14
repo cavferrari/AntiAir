@@ -7,6 +7,7 @@ public class Ballistics : MonoBehaviour
     {
         public GameObject prefab;
         public GameObject postSmokePrefab;
+        public GameObject audioPrefab;
         public float startSizeMin = 1f;
         public float startSizeMax = 1f;
         public bool alwaysCreate = true;
@@ -133,6 +134,14 @@ public class Ballistics : MonoBehaviour
                                                         Quaternion.identity);
                     fxEffect = effect.GetComponent<FxEffect>();
                     fxEffect.Play();
+                }
+                if (impactExplosion.audioPrefab != null)
+                {
+                    effect = ObjectPooling.Instance.Get(impactExplosion.audioPrefab.name + "Pool",
+                                                        this.transform.position,
+                                                        Quaternion.identity);
+                    SoundEffect soundEffect = effect.GetComponent<SoundEffect>();
+                    soundEffect.Play();
                 }
             }
         }

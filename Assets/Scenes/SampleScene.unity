@@ -1037,6 +1037,12 @@ PrefabInstance:
       propertyPath: TargetPoint
       value: 
       objectReference: {fileID: 834741627}
+    - target: {fileID: 7669459415878110331, guid: 6d9103e0ce3284a45b25458249e3369b,
+        type: 3}
+      propertyPath: muzzleSoundPrefab
+      value: 
+      objectReference: {fileID: 4870765252517936532, guid: 5e4f5096d2ee0ea4e8393d8467b448e4,
+        type: 3}
     - target: {fileID: 8619156233988032492, guid: 6d9103e0ce3284a45b25458249e3369b,
         type: 3}
       propertyPath: m_IsTrigger
@@ -1167,7 +1173,7 @@ MonoBehaviour:
   - {fileID: 7762270471844350100, guid: 2e4dc599173c101469935378acf7a6eb, type: 3}
   postExplosionSmokePrefab: {fileID: 2174750527991755743, guid: d633251e5bde0a149bdea9aea08ac203,
     type: 3}
-  postExplosionSmokeTime: 15
+  postExplosionSmokeTime: 25
 --- !u!4 &2045686050
 Transform:
   m_ObjectHideFlags: 0

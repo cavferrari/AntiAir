@@ -11,10 +11,11 @@ public class Enemy : MonoBehaviour
     public float rollEntryDistance = 20f;
     public float rollEndDistance = 20f;
     public float rotationPauseTime = 2f;
-    public float speed;
-    public float zAxisRotation;
     public GameObject smokePrefab;
     public GameObject explosionPrefab;
+    public GameObject explosionSoundPrefab;
+    public float speed;
+    public float zAxisRotation;
 
     private Rigidbody rb;
     private TrailRenderer trailRenderer;
@@ -305,6 +306,10 @@ public class Enemy : MonoBehaviour
                                                           this.transform.position,
                                                           Quaternion.identity);
         explosion.GetComponent<FxEffect>().Play();
+        explosion = ObjectPooling.Instance.Get(explosionSoundPrefab.name + "Pool",
+                                               this.transform.position,
+                                               Quaternion.identity);
+        explosion.GetComponent<SoundEffect>().Play();
         smoke.GetComponent<FxEffect>().Stop();
         GameManager.Instance.CreatePostExplosionSmoke(this.transform.position);
         ObjectPooling.Instance.ReturnObject(this.gameObject);

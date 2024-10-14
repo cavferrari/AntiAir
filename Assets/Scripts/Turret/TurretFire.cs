@@ -4,6 +4,7 @@ public class TurretFire : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform[] muzzles;
+    public GameObject muzzleSoundPrefab;
 
     private float timer = 0f;
 
@@ -18,6 +19,10 @@ public class TurretFire : MonoBehaviour
                                                                   muzzles[i].rotation);
                 newBullet.GetComponent<Ballistics>().Initialize(muzzles[i].position, muzzles[i].forward, muzzles[i].position.z);
                 timer = 1f / newBullet.GetComponent<Ballistics>().rateFire;
+                newBullet = ObjectPooling.Instance.Get(muzzleSoundPrefab.name + "Pool",
+                                                       muzzles[i].position,
+                                                       Quaternion.identity);
+                newBullet.GetComponent<SoundEffect>().Play();
             }
         }
         if (timer > 0f)

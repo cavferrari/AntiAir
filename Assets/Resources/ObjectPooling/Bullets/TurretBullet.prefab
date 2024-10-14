@@ -261,6 +261,8 @@ MonoBehaviour:
       type: 3}
     postSmokePrefab: {fileID: 3164723476481158823, guid: 799a1c89d987bf94280662716b42a958,
       type: 3}
+    audioPrefab: {fileID: 4870765252517936532, guid: c7ee1e74f7591de428d843967bf074f9,
+      type: 3}
     startSizeMin: 2
     startSizeMax: 3
     alwaysCreate: 1

@@ -4,16 +4,20 @@ using UnityEngine;
 public class EnemyFireControl : MonoBehaviour
 {
     public GameObject[] muzzleFlashes;
+    public AudioClip[] muzzleAudioClips;
 
+    private AudioSource audioSource;
     private Ordenance ordenance;
     private Enemy enemy;
     private float timer = 0f;
     private Vector3 muzzleFlashEuler;
     private bool fire;
+    private bool previousFire;
     private bool isFiringWeapons = false;
 
     void Awake()
     {
+        audioSource = this.GetComponent<AudioSource>();
         ordenance = this.GetComponent<Ordenance>();
         enemy = this.GetComponent<Enemy>();
     }
@@ -21,6 +25,7 @@ public class EnemyFireControl : MonoBehaviour
     void Update()
     {
         UpdateFire();
+        UpdateMuzzleAudio();
         if (timer > 0f)
         {
             timer -= Time.deltaTime;
@@ -46,6 +51,7 @@ public class EnemyFireControl : MonoBehaviour
 
     public void SetFire(bool value)
     {
+        previousFire = fire;
         fire = value;
         if (!fire)
         {
@@ -72,6 +78,49 @@ public class EnemyFireControl : MonoBehaviour
             {
                 ordenance.Fire(enemy.Velocity(), this.transform.position.z);
                 isFiringWeapons = true;
+            }
+        }
+    }
+
+    private void UpdateMuzzleAudio()
+    {
+        if (fire)
+        {
+            if (!isFiringWeapons && ordenance.IsMainWeaponActive())
+            {
+                if (!previousFire)
+                {
+                    audioSource.loop = false;
+                    audioSource.clip = muzzleAudioClips[0];
+                    audioSource.Play();
+                    previousFire = fire;
+                }
+                else
+                {
+                    if (audioSource.clip == muzzleAudioClips[0] && !audioSource.isPlaying)
+                    {
+                        audioSource.loop = true;
+                        audioSource.clip = muzzleAudioClips[1];
+                        if (!audioSource.isPlaying)
+                        {
+                            Debug.Log("A");
+                            audioSource.Play();
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (!isFiringWeapons && ordenance.IsMainWeaponActive())
+            {
+                if (previousFire && audioSource.clip == muzzleAudioClips[1])
+                {
+                    audioSource.loop = false;
+                    audioSource.clip = muzzleAudioClips[2];
+                    audioSource.Play();
+                    previousFire = fire;
+                }
             }
         }
     }

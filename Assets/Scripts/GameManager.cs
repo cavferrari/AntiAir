@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Vector2 screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, Camera.main.transform.position.z));
-        horizontalBorderLeft = screenBounds.x;
-        horizontalBorderRight = -screenBounds.x;
+        horizontalBorderLeft = -screenBounds.x;
+        horizontalBorderRight = screenBounds.x;
         topBorder = screenBounds.y;
     }
 
@@ -49,6 +49,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float HorizontalBorderLeft()
+    {
+        return horizontalBorderLeft;
+    }
+
+    public float HorizontalBorderRight()
+    {
+        return horizontalBorderRight;
+    }
+
+    public float TopBorder()
+    {
+        return topBorder;
+    }
+
     public void CreatePostExplosionSmoke(Vector3 position)
     {
         GameObject smoke = ObjectPooling.Instance.Get(postExplosionSmokePrefab.name + "Pool",
@@ -63,12 +78,12 @@ public class GameManager : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             x = horizontalBorderLeft - 10f;
-            spawnYRotation = -90f;
+            spawnYRotation = 90f;
         }
         else
         {
             x = horizontalBorderRight - 10f;
-            spawnYRotation = 90f;
+            spawnYRotation = -90f;
         }
         y = Random.Range(minSpawnVerticalValue, topBorder - 10f);
         z = 0f;

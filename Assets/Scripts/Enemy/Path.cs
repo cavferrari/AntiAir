@@ -16,20 +16,11 @@ public class Path : MonoBehaviour
     public float distanceEscapeVerticalMax = 190f;
     public float distanceEscapeVerticalMin = 100f;
 
-    private float horizontalBorder;
     private Vector3 returnPosition, finishPosition, entryRunPosition, endRunPosition, escapePosition;
     private Vector3 entryRunRollPosition, endRunRollPosition;
     private List<Vector3> path = new List<Vector3>();
     private int turnCounter;
     private int orientation;
-
-
-    void Awake()
-    {
-        Vector2 screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, Camera.main.transform.position.z));
-        horizontalBorder = screenBounds.x;
-        //topBorder = screenBounds.y;
-    }
 
     public int GetPathCount()
     {
@@ -143,7 +134,7 @@ public class Path : MonoBehaviour
         entryRunRollPosition = entryRunPosition - orientation * rollEntryDistance * Vector3.right;
 
         float distanceEscapeVertical = Random.Range(distanceEscapeVerticalMin, distanceEscapeVerticalMax);
-        escapePosition = new Vector3(horizontalBorder * orientation - (distanceEscapeFromBorder * orientation), targetPosition.y + distanceEscapeVertical, playerPosition.z);
+        escapePosition = new Vector3(GameManager.Instance.HorizontalBorderRight() * orientation - (distanceEscapeFromBorder * orientation), targetPosition.y + distanceEscapeVertical, playerPosition.z);
         float distanceEndRun = Random.Range(distanceEndRunMin, distanceEndRunMax);
         //create escape curve
         endRunPosition = CreateCurve(path.Last(),
@@ -153,7 +144,7 @@ public class Path : MonoBehaviour
         endRunRollPosition = endRunPosition + orientation * rollEndDistance * Vector3.right;
 
         //create first return curve
-        returnPosition = new Vector3((horizontalBorder * orientation) - (distanceEscapeFromBorder * orientation), escapePosition.y + returnCurveRadius * 2f, playerPosition.z);
+        returnPosition = new Vector3((GameManager.Instance.HorizontalBorderRight() * orientation) - (distanceEscapeFromBorder * orientation), escapePosition.y + returnCurveRadius * 2f, playerPosition.z);
         CreateCurve(path.Last(),
                     escapePosition,
                     returnPosition,

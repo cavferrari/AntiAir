@@ -170,6 +170,8 @@ public class ObjectPooling : Singleton<ObjectPooling>
       "EnemyBullet" => 1000,
       "Rocket" => 100,
       "PlaceHolderExplosionBullet" => 1000,
+      "TurretBulletMuzzleAudio" => 1000,
+      "TurretBulletExplosionAirAudio" => 100,
       _ => 10,
     };
   }
