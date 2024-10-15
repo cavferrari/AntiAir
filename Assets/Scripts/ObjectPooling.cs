@@ -103,6 +103,7 @@ public class ObjectPooling : Singleton<ObjectPooling>
     public GameObject prefab;
     public int size;
 
+    private Transform parent;
     private string name;
     private List<GameObject> freeList;
     private List<GameObject> usedList;
@@ -123,8 +124,9 @@ public class ObjectPooling : Singleton<ObjectPooling>
       return freeList.Count;
     }
 
-    public void Initialize(Transform parent)
+    public void Initialize(Transform _parent)
     {
+      parent = _parent;
       name = prefab.name + "Pool";
       freeList = new List<GameObject>(size);
       usedList = new List<GameObject>(size);
@@ -141,7 +143,11 @@ public class ObjectPooling : Singleton<ObjectPooling>
     {
       if (freeList.Count == 0)
       {
-        ReturnObject(usedList[0]);
+        GameObject newObject = Instantiate(prefab, parent);
+        newObject.name = newObject.name.Replace("(Clone)", "_" + usedList.Count);
+        newObject.gameObject.SetActive(false);
+        freeList.Add(newObject);
+        //ReturnObject(usedList[0]);
       }
       GameObject pooledObject = freeList[freeList.Count - 1];
       freeList.RemoveAt(freeList.Count - 1);

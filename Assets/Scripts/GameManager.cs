@@ -34,14 +34,11 @@ public class GameManager : MonoBehaviour
     {
         if (timer <= 0f)
         {
-            if (ObjectPooling.Instance.GetPoolFreeListSize(enemiesPrefabs[0].name + "Pool") > 0)
-            {
-                newEnemy = ObjectPooling.Instance.Get(enemiesPrefabs[0].name + "Pool",
-                                                      GenerateRandonSpawnPosition(),
-                                                      Quaternion.Euler(new Vector3(0f, spawnYRotation, 0f)));
-                newEnemy.GetComponent<Enemy>().Initialize();
-                timer = Random.Range(minSpawnTime, maxSpawnTime);
-            }
+            newEnemy = ObjectPooling.Instance.Get(enemiesPrefabs[0].name + "Pool",
+                                                  GenerateRandonSpawnPosition(),
+                                                  Quaternion.Euler(new Vector3(0f, spawnYRotation, 0f)));
+            newEnemy.GetComponent<Enemy>().Initialize();
+            timer = Random.Range(minSpawnTime, maxSpawnTime);
         }
         if (timer > 0f)
         {
