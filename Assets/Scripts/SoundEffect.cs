@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SoundEffect : Effect<AudioSource>
@@ -9,12 +10,10 @@ public class SoundEffect : Effect<AudioSource>
 
     public override void CustomPlay()
     {
+        float distance = Math.Clamp(Vector3.Distance(Vector3.zero, this.transform.position), 0, GameManager.Instance.HorizontalBorderRight());
+        float percentage = Math.Abs(GameManager.Instance.HorizontalBorderRight() - distance) / GameManager.Instance.HorizontalBorderRight();
+        effect.volume *= percentage;
         effect.Play();
-    }
-
-    public override void CustomStart()
-    {
-        effect.maxDistance = GameManager.Instance.HorizontalBorderRight();
     }
 
     public override void CustomAwake()

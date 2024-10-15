@@ -84,9 +84,9 @@ public class EnemyFireControl : MonoBehaviour
 
     private void UpdateMuzzleAudio()
     {
-        if (fire)
+        if (!isFiringWeapons && ordenance.IsMainWeaponActive())
         {
-            if (!isFiringWeapons && ordenance.IsMainWeaponActive())
+            if (fire)
             {
                 if (!previousFire)
                 {
@@ -101,18 +101,11 @@ public class EnemyFireControl : MonoBehaviour
                     {
                         audioSource.loop = true;
                         audioSource.clip = muzzleAudioClips[1];
-                        if (!audioSource.isPlaying)
-                        {
-                            Debug.Log("A");
-                            audioSource.Play();
-                        }
+                        audioSource.Play();
                     }
                 }
             }
-        }
-        else
-        {
-            if (!isFiringWeapons && ordenance.IsMainWeaponActive())
+            else
             {
                 if (previousFire && audioSource.clip == muzzleAudioClips[1])
                 {

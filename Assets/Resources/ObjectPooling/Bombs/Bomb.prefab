@@ -95,7 +95,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568367215729597945}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.9
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -238,7 +238,7 @@ MonoBehaviour:
     prefab: {fileID: 3164723476481158823, guid: 174fddc17ac29d04ab49dad76b3574b1,
       type: 3}
     postSmokePrefab: {fileID: 0}
-    audioPrefab: {fileID: 4870765252517936532, guid: c48bdb8fd3ac5264facd9dfe92c5f7e1,
+    audioPrefab: {fileID: 4870765252517936532, guid: 5c345e17f71b47541b2f82b3d6fd38f8,
       type: 3}
     startSizeMin: 15
     startSizeMax: 20
