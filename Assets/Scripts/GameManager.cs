@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         horizontalBorderLeft = -screenBounds.x;
         horizontalBorderRight = screenBounds.x;
         topBorder = screenBounds.y;
+        Cursor.visible = false;
     }
 
     void Update()
