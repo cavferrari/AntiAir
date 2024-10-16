@@ -741,12 +741,6 @@ MonoBehaviour:
   rollEntryDistance: 20
   rollEndDistance: 50
   rotationPauseTime: 1.5
-  smokePrefab: {fileID: 6834711315120716856, guid: 74ab292c471a4c24dab1de5490dd9dee,
-    type: 3}
-  explosionPrefab: {fileID: 3164723476481158823, guid: 3b45373235869f444bbd39e82dd0cb13,
-    type: 3}
-  explosionSoundPrefab: {fileID: 4870765252517936532, guid: 1cac8247eb5b50c4893e47024effd3ea,
-    type: 3}
   speed: 40
   zAxisRotation: 0
 --- !u!114 &6947827600214465309
@@ -831,6 +825,7 @@ MonoBehaviour:
   - effectPrefab: {fileID: 6834711315120716856, guid: 74ab292c471a4c24dab1de5490dd9dee,
       type: 3}
     audioPrefab: {fileID: 0}
+    duration: -1
     startSizeMin: 1
     startSizeMax: 3
     alwaysCreate: 1
@@ -838,8 +833,16 @@ MonoBehaviour:
       type: 3}
     audioPrefab: {fileID: 4870765252517936532, guid: 1cac8247eb5b50c4893e47024effd3ea,
       type: 3}
+    duration: -1
     startSizeMin: 10
     startSizeMax: 15
+    alwaysCreate: 1
+  - effectPrefab: {fileID: 2174750527991755743, guid: d633251e5bde0a149bdea9aea08ac203,
+      type: 3}
+    audioPrefab: {fileID: 0}
+    duration: 5
+    startSizeMin: 1
+    startSizeMax: 2
     alwaysCreate: 1
 --- !u!1 &8140774563425828388
 GameObject:

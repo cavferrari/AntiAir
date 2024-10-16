@@ -307,9 +307,10 @@ public class Enemy : MonoBehaviour
         visualEffect.Stop(0);
         rb.isKinematic = true;
         meshRenderer.enabled = false;
+        this.transform.rotation = Quaternion.identity;
         visualEffect.Play(1);
-        GameManager.Instance.CreatePostExplosionSmoke(this.transform.position);
-        while (visualEffect.IsActive())
+        visualEffect.Play(2);
+        while (visualEffect.IsAlive())
         {
             yield return null;
         }

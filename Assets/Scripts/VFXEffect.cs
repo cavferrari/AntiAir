@@ -52,11 +52,11 @@ public class VFXEffect : MonoBehaviour
         effects[index].StopAudio();
     }
 
-    public bool IsActive()
+    public bool IsAlive()
     {
         for (int i = 0; i < effects.Length; i++)
         {
-            if (effects[i].IsActive())
+            if (effects[i].IsAlive())
             {
                 return true;
             }
@@ -123,15 +123,15 @@ public class VFXEffect : MonoBehaviour
             }
         }
 
-        public bool IsActive()
+        public bool IsAlive()
         {
             if (hasAudio)
             {
-                return particleSystem.isEmitting && audioSource.isPlaying;
+                return particleSystem.IsAlive() || audioSource.isPlaying;
             }
             else
             {
-                return particleSystem.isEmitting;
+                return particleSystem.IsAlive();
             }
         }
     }

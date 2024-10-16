@@ -993,7 +993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4831330421115786, guid: 6d9103e0ce3284a45b25458249e3369b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4831330421115786, guid: 6d9103e0ce3284a45b25458249e3369b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1028,19 +1028,7 @@ PrefabInstance:
       propertyPath: TargetPoint
       value: 
       objectReference: {fileID: 834741627}
-    - target: {fileID: 7669459415878110331, guid: 6d9103e0ce3284a45b25458249e3369b,
-        type: 3}
-      propertyPath: muzzleSoundPrefab
-      value: 
-      objectReference: {fileID: 4870765252517936532, guid: 5e4f5096d2ee0ea4e8393d8467b448e4,
-        type: 3}
-    - target: {fileID: 8619156233988032492, guid: 6d9103e0ce3284a45b25458249e3369b,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -61,14 +61,6 @@ public class GameManager : MonoBehaviour
         return topBorder;
     }
 
-    public void CreatePostExplosionSmoke(Vector3 position)
-    {
-        GameObject smoke = ObjectPooling.Instance.Get(postExplosionSmokePrefab.name + "Pool",
-                                                      position,
-                                                      Quaternion.identity);
-        smoke.GetComponent<PoolVFXEffect>().Play(Random.Range(postExplosionSmokeTime - 2f, postExplosionSmokeTime + 2f));
-    }
-
     private Vector3 GenerateRandonSpawnPosition()
     {
         float x, y, z;

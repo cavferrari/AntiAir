@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7791110356455887909}
   - component: {fileID: 6930489996041445767}
   m_Layer: 0
-  m_Name: PlaceHolderAirPlaneExplosionGround
+  m_Name: PlaceHolderAirplaneExplosionGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

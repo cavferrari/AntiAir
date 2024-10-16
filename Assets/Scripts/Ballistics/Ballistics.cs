@@ -110,7 +110,7 @@ public class Ballistics : MonoBehaviour
         }
         meshRenderer.enabled = false;
         trailRenderer.enabled = false;
-        while (visualEffect.IsActive())
+        while (visualEffect.IsAlive())
         {
             yield return null;
         }
