@@ -22,7 +22,7 @@ public class TurretFire : MonoBehaviour
                 newBullet = ObjectPooling.Instance.Get(muzzleSoundPrefab.name + "Pool",
                                                        muzzles[i].position,
                                                        Quaternion.identity);
-                newBullet.GetComponent<SoundEffect>().Play();
+                newBullet.GetComponent<PoolSoundEffect>().Play();
             }
         }
         if (timer > 0f)

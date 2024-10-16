@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         GameObject smoke = ObjectPooling.Instance.Get(postExplosionSmokePrefab.name + "Pool",
                                                       position,
                                                       Quaternion.identity);
-        smoke.GetComponent<FxEffect>().Play(Random.Range(postExplosionSmokeTime - 2f, postExplosionSmokeTime + 2f));
+        smoke.GetComponent<PoolVFXEffect>().Play(Random.Range(postExplosionSmokeTime - 2f, postExplosionSmokeTime + 2f));
     }
 
     private Vector3 GenerateRandonSpawnPosition()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Effect<T> : MonoBehaviour
+public class PoolEffect<T> : MonoBehaviour
 {
     protected T effect;
     protected Transform poolParent;

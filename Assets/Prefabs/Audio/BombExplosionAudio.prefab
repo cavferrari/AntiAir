@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4196478107844186216}
   - component: {fileID: 7899457849339730482}
   m_Layer: 0
-  m_Name: AirplaneMainGun
+  m_Name: BombExplosionAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,9 +42,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cf67b60a856c0fa49a4a05bba1c8b7eb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b047aac8c8d826a42b1ae503854a0e98, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -63,22 +63,22 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0001
+      time: 0
       value: 1
-      inSlope: -2.9400294
-      outSlope: -2.9400294
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.10187098
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.0001
-      inSlope: -0.00010003987
-      outSlope: -0.00010003987
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.3173653
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

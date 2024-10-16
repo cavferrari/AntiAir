@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SoundEffect : Effect<AudioSource>
+public class PoolSoundEffect : PoolEffect<AudioSource>
 {
     public override bool CustomDestroyCondition()
     {

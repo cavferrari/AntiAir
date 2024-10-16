@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 4590500813735669957}
   - component: {fileID: 8100419038816051432}
   - component: {fileID: 3944736188364867491}
+  - component: {fileID: 798206014433322078}
   - component: {fileID: 1833219057434326745}
   - component: {fileID: 7752275484368868992}
   - component: {fileID: -8835337967953271447}
   - component: {fileID: 8863190474277785133}
+  - component: {fileID: -6721997779393391613}
   m_Layer: 7
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -52,7 +54,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5418844817395130694}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -87,6 +89,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &798206014433322078
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5418844817395130694}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!96 &1833219057434326745
 TrailRenderer:
   serializedVersion: 3
@@ -232,6 +261,7 @@ MonoBehaviour:
     prefab: {fileID: 3164723476481158823, guid: 77d6c69c67900044b885d80497f749eb,
       type: 3}
     postSmokePrefab: {fileID: 0}
+    audioPrefab: {fileID: 0}
     startSizeMin: 1
     startSizeMax: 2
     alwaysCreate: 0
@@ -252,3 +282,22 @@ MonoBehaviour:
   radius: 0.035
   dragCoefficient: 0.021
   mediumDensity: 1.225
+--- !u!114 &-6721997779393391613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5418844817395130694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24553b88a5939b5418c704ea5a8be7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - effectPrefab: {fileID: 3164723476481158823, guid: 77d6c69c67900044b885d80497f749eb,
+      type: 3}
+    audioPrefab: {fileID: 0}
+    startSizeMin: 1
+    startSizeMax: 2
+    alwaysCreate: 0

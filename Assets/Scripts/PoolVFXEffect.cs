@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FxEffect : Effect<ParticleSystem>
+public class PoolVFXEffect : PoolEffect<ParticleSystem>
 {
     private ParticleSystem.MainModule mainModule;
 

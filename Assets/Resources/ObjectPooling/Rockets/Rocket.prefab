@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 6321772959106124671}
   - component: {fileID: -4372218904721726534}
   - component: {fileID: 7596456869256552766}
+  - component: {fileID: 6047201164401289449}
   m_Layer: 7
   m_Name: Rocket
   m_TagString: Untagged
@@ -314,3 +315,23 @@ MonoBehaviour:
   radius: 0.05
   dragCoefficient: 0.02
   mediumDensity: 1.225
+--- !u!114 &6047201164401289449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6011262790291555201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24553b88a5939b5418c704ea5a8be7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - effectPrefab: {fileID: 3164723476481158823, guid: ef548d2d6a9ea2c45a9cf8041a53bb3d,
+      type: 3}
+    audioPrefab: {fileID: 4870765252517936532, guid: be818767a34f3d24e8996578d430715f,
+      type: 3}
+    startSizeMin: 2
+    startSizeMax: 3
+    alwaysCreate: 1

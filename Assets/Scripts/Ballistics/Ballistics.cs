@@ -1,18 +1,8 @@
+using System.Collections;
 using UnityEngine;
 
 public class Ballistics : MonoBehaviour
 {
-    [System.Serializable]
-    public class BallisticsFxEffect
-    {
-        public GameObject prefab;
-        public GameObject postSmokePrefab;
-        public GameObject audioPrefab;
-        public float startSizeMin = 1f;
-        public float startSizeMax = 1f;
-        public bool alwaysCreate = true;
-    }
-
     public enum BallisticsType
     {
         BULLET, ROCKET, BOMB
@@ -22,10 +12,11 @@ public class Ballistics : MonoBehaviour
     public float rateFire = 1f;
     public float distanceFromTargetTrigger = 200f;
     public float lifeTime = 3f;
-    public BallisticsFxEffect impactExplosion;
 
     protected Rigidbody rb;
+    protected MeshRenderer meshRenderer;
     protected TrailRenderer trailRenderer;
+    protected VFXEffect visualEffect;
     protected Transform poolParent;
     protected Vector3 currentPosition;
     protected Vector3 currentVelocity;
@@ -34,7 +25,7 @@ public class Ballistics : MonoBehaviour
     protected BallisticData ballisticData;
     protected float lifeTimer;
     protected float zPlane;
-    protected bool isInitialized = false;
+    protected bool isActive = false;
 
     void Awake()
     {
@@ -48,15 +39,23 @@ public class Ballistics : MonoBehaviour
 
     void Update()
     {
-        if (isInitialized)
+        if (isActive)
         {
-            Destroy();
+            if (currentPosition.y <= 0 || lifeTimer <= 0f)
+            {
+                if (currentPosition.y <= 0)
+                {
+                    visualEffect.Play();
+                }
+                isActive = false;
+                StartCoroutine(Destroy());
+            }
         }
     }
 
     void FixedUpdate()
     {
-        if (isInitialized)
+        if (isActive)
         {
             Move();
             if (lifeTimer > 0f)
@@ -68,8 +67,12 @@ public class Ballistics : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        CreateImpactEffect();
-        Destroy(true);
+        if (isActive)
+        {
+            visualEffect.Play();
+            isActive = false;
+            StartCoroutine(Destroy());
+        }
     }
 
     public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
@@ -86,7 +89,7 @@ public class Ballistics : MonoBehaviour
             rb.AddForce(currentVelocity);
         }
         trailRenderer.enabled = true;
-        isInitialized = true;
+        isActive = true;
     }
 
     protected virtual void Move()
@@ -99,52 +102,20 @@ public class Ballistics : MonoBehaviour
         this.transform.position = currentPosition;
     }
 
-    protected virtual void Destroy(bool isCollision = false)
+    protected virtual IEnumerator Destroy()
     {
-        if (isCollision || currentPosition.y <= 0 || lifeTimer <= 0f)
+        if (rb != null)
         {
-            if (!isCollision && currentPosition.y <= 0)
-            {
-                CreateImpactEffect();
-            }
-            if (rb != null) rb.isKinematic = true;
-            trailRenderer.enabled = false;
-            isInitialized = false;
-            ObjectPooling.Instance.ReturnObject(this.gameObject);
+            rb.isKinematic = true;
         }
-    }
-
-    protected virtual void CreateImpactEffect()
-    {
-        if (impactExplosion.prefab != null)
+        meshRenderer.enabled = false;
+        trailRenderer.enabled = false;
+        while (visualEffect.IsActive())
         {
-            bool createEffect = impactExplosion.alwaysCreate || (Random.Range(0, 2) == 1);
-            if (createEffect)
-            {
-                GameObject effect = ObjectPooling.Instance.Get(impactExplosion.prefab.name + "Pool",
-                                                               this.transform.position,
-                                                               Quaternion.identity);
-                FxEffect fxEffect = effect.GetComponent<FxEffect>();
-                fxEffect.SetStartSize(impactExplosion.startSizeMin, impactExplosion.startSizeMax);
-                fxEffect.Play();
-                if (impactExplosion.postSmokePrefab != null)
-                {
-                    effect = ObjectPooling.Instance.Get(impactExplosion.postSmokePrefab.name + "Pool",
-                                                        this.transform.position,
-                                                        Quaternion.identity);
-                    fxEffect = effect.GetComponent<FxEffect>();
-                    fxEffect.Play();
-                }
-                if (impactExplosion.audioPrefab != null)
-                {
-                    effect = ObjectPooling.Instance.Get(impactExplosion.audioPrefab.name + "Pool",
-                                                        this.transform.position,
-                                                        Quaternion.identity);
-                    SoundEffect soundEffect = effect.GetComponent<SoundEffect>();
-                    soundEffect.Play();
-                }
-            }
+            yield return null;
         }
+        meshRenderer.enabled = true;
+        ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 
     /* protected virtual void CheckHit()
@@ -165,7 +136,9 @@ public class Ballistics : MonoBehaviour
     protected virtual void CustomAwake()
     {
         rb = this.GetComponent<Rigidbody>();
+        meshRenderer = this.GetComponent<MeshRenderer>();
         trailRenderer = this.GetComponentInChildren<TrailRenderer>();
+        visualEffect = this.GetComponentInChildren<VFXEffect>();
         poolParent = this.transform.parent;
         ballisticData = this.GetComponent<BallisticData>();
         if (rb != null) rb.isKinematic = true;

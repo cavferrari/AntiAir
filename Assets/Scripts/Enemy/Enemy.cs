@@ -11,14 +11,13 @@ public class Enemy : MonoBehaviour
     public float rollEntryDistance = 20f;
     public float rollEndDistance = 20f;
     public float rotationPauseTime = 2f;
-    public GameObject smokePrefab;
-    public GameObject explosionPrefab;
-    public GameObject explosionSoundPrefab;
     public float speed;
     public float zAxisRotation;
 
     private Rigidbody rb;
+    protected MeshRenderer meshRenderer;
     private TrailRenderer trailRenderer;
+    protected VFXEffect visualEffect;
     private Path path;
     private EnemyFireControl enemyFireControl;
     private Quaternion targetRotation;
@@ -28,20 +27,22 @@ public class Enemy : MonoBehaviour
     private Vector3 up = Vector3.up;
     private GameObject[] targets;
     private bool isAttacking = false;
-    private bool isInitialized = false;
+    private bool isActive = false;
     private bool isDestroyed = false;
 
     void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
+        meshRenderer = this.GetComponent<MeshRenderer>();
         trailRenderer = this.GetComponentInChildren<TrailRenderer>();
+        visualEffect = this.GetComponentInChildren<VFXEffect>();
         path = this.GetComponent<Path>();
         enemyFireControl = this.GetComponent<EnemyFireControl>();
     }
 
     void Update()
     {
-        if (isInitialized && !isDestroyed)
+        if (isActive && !isDestroyed)
         {
             if (path.GetPathCount() != 0 && indexCount < path.GetPathCount())
             {
@@ -65,13 +66,15 @@ public class Enemy : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
+            isActive = false;
+            isDestroyed = true;
             StartCoroutine(Destroy());
         }
     }
 
     void FixedUpdate()
     {
-        if (isInitialized)
+        if (isActive)
         {
             UpdateSpeed();
         }
@@ -79,8 +82,10 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!isDestroyed)
+        if (isActive && !isDestroyed)
         {
+            isActive = false;
+            isDestroyed = true;
             StartCoroutine(Destroy());
         }
     }
@@ -95,9 +100,10 @@ public class Enemy : MonoBehaviour
         isAttacking = false;
         trailRenderer.enabled = true;
         rb.isKinematic = true;
+        meshRenderer.enabled = true;
         targets = GameObject.FindGameObjectsWithTag("Target");
         isDestroyed = false;
-        isInitialized = true;
+        isActive = true;
     }
 
     public Vector3 Velocity()
@@ -283,14 +289,10 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Destroy()
     {
-        isDestroyed = true;
+        visualEffect.Play(0);
         enemyFireControl.SetFire(false);
         rb.isKinematic = false;
         trailRenderer.enabled = false;
-        GameObject smoke = ObjectPooling.Instance.Get(smokePrefab.name + "Pool",
-                                                      this.transform.position,
-                                                      Quaternion.identity);
-        smoke.GetComponent<FxEffect>().Play(this.transform);
         rb.AddForce(4f * speed * (path.GetPathPoint(indexCount) - this.transform.position).normalized);
         float elapsedTime = 0f;
         float time = 10f;
@@ -302,16 +304,15 @@ public class Enemy : MonoBehaviour
             this.transform.Rotate(xAxis * Time.fixedDeltaTime, yAxis * Time.fixedDeltaTime, zAxis * Time.fixedDeltaTime);
             yield return null;
         }
-        GameObject explosion = ObjectPooling.Instance.Get(explosionPrefab.name + "Pool",
-                                                          this.transform.position,
-                                                          Quaternion.identity);
-        explosion.GetComponent<FxEffect>().Play();
-        explosion = ObjectPooling.Instance.Get(explosionSoundPrefab.name + "Pool",
-                                               this.transform.position,
-                                               Quaternion.identity);
-        explosion.GetComponent<SoundEffect>().Play();
-        smoke.GetComponent<FxEffect>().Stop();
+        visualEffect.Stop(0);
+        rb.isKinematic = true;
+        meshRenderer.enabled = false;
+        visualEffect.Play(1);
         GameManager.Instance.CreatePostExplosionSmoke(this.transform.position);
+        while (visualEffect.IsActive())
+        {
+            yield return null;
+        }
         ObjectPooling.Instance.ReturnObject(this.gameObject);
     }
 }

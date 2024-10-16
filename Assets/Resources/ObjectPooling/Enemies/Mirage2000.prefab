@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 6947827600214465309}
   - component: {fileID: 4843609539371937109}
   - component: {fileID: 1549507287940316661}
+  - component: {fileID: -6920539976260239906}
   m_Layer: 6
   m_Name: Mirage2000
   m_TagString: Untagged
@@ -809,11 +810,37 @@ MonoBehaviour:
       type: 3}
   hardPoints:
   - point: {fileID: 8374128970080513954}
-    weaponPrefab: {fileID: 8568367215729597945, guid: 900769fb1b127b04299e891ae2065747,
-      type: 3}
-  - point: {fileID: 1761466451198970164}
     weaponPrefab: {fileID: 6011262790291555201, guid: ea10b64e16b88e74c94ed69623433231,
       type: 3}
+  - point: {fileID: 1761466451198970164}
+    weaponPrefab: {fileID: 8568367215729597945, guid: 900769fb1b127b04299e891ae2065747,
+      type: 3}
+--- !u!114 &-6920539976260239906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762270471844350100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24553b88a5939b5418c704ea5a8be7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - effectPrefab: {fileID: 6834711315120716856, guid: 74ab292c471a4c24dab1de5490dd9dee,
+      type: 3}
+    audioPrefab: {fileID: 0}
+    startSizeMin: 1
+    startSizeMax: 3
+    alwaysCreate: 1
+  - effectPrefab: {fileID: 3164723476481158823, guid: 3b45373235869f444bbd39e82dd0cb13,
+      type: 3}
+    audioPrefab: {fileID: 4870765252517936532, guid: 1cac8247eb5b50c4893e47024effd3ea,
+      type: 3}
+    startSizeMin: 10
+    startSizeMax: 15
+    alwaysCreate: 1
 --- !u!1 &8140774563425828388
 GameObject:
   m_ObjectHideFlags: 0
