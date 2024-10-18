@@ -90,6 +90,22 @@ public class ObjectPooling : Singleton<ObjectPooling>
     }
   }
 
+  public List<GameObject> UsedList(string poolName)
+  {
+    for (int i = 0; i < groupPools.Count; i++)
+    {
+      for (int j = 0; j < groupPools[i].Length; j++)
+      {
+        if (groupPools[i][j].GetName().Equals(poolName))
+        {
+          return groupPools[i][j].GetUsedList();
+        }
+      }
+    }
+    Debug.Log("No pool found with name: " + poolName);
+    return null;
+  }
+
   public string GetPoolName(GameObject pooledObject)
   {
     int index = pooledObject.name.IndexOf("_");
@@ -122,6 +138,11 @@ public class ObjectPooling : Singleton<ObjectPooling>
     public int GetFreeListSize()
     {
       return freeList.Count;
+    }
+
+    public List<GameObject> GetUsedList()
+    {
+      return usedList;
     }
 
     public void Initialize(Transform _parent)
@@ -175,9 +196,6 @@ public class ObjectPooling : Singleton<ObjectPooling>
       "TurretBullet" => 1000,
       "EnemyBullet" => 1000,
       "Rocket" => 100,
-      "PlaceHolderExplosionBullet" => 1000,
-      "TurretBulletMuzzleAudio" => 1000,
-      "TurretBulletExplosionAirAudio" => 100,
       _ => 10,
     };
   }

@@ -69,6 +69,7 @@ public class VFXEffect : MonoBehaviour
     {
         public GameObject effectPrefab;
         public GameObject audioPrefab;
+        public bool overrideStartSize = false;
         public float startSizeMin = 1f;
         public float startSizeMax = 1f;
         public bool alwaysCreate = true;
@@ -86,7 +87,10 @@ public class VFXEffect : MonoBehaviour
             effectInstance = _effectInstance;
             particleSystem = effectInstance.GetComponent<ParticleSystem>();
             mainModule = particleSystem.main;
-            mainModule.startSize = new ParticleSystem.MinMaxCurve(startSizeMin, startSizeMax);
+            if (overrideStartSize)
+            {
+                mainModule.startSize = new ParticleSystem.MinMaxCurve(startSizeMin, startSizeMax);
+            }
             if (hasAudio)
             {
                 audioInstance = _audioInstance;

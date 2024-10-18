@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     public float maxSpawnTime = 2f;
     public float minSpawnVerticalValue = 100f;
     public GameObject[] enemiesPrefabs;
-    public GameObject postExplosionSmokePrefab;
-    public float postExplosionSmokeTime = 10f;
 
     private float horizontalBorderLeft;
     private float horizontalBorderRight;

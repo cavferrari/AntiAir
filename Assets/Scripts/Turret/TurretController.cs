@@ -2,14 +2,13 @@
 
 public class TurretController : MonoBehaviour
 {
-    [SerializeField] private TurretAim TurretAim = null;
+    private TurretAim TurretAim;
 
     public Transform TargetPoint = null;
 
     private void Awake()
     {
-        if (TurretAim == null)
-            Debug.LogError(name + ": TurretController not assigned a TurretAim!");
+        TurretAim = this.GetComponent<TurretAim>();
     }
 
     private void Update()

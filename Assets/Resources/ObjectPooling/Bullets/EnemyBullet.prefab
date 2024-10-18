@@ -257,14 +257,6 @@ MonoBehaviour:
   rateFire: 10
   distanceFromTargetTrigger: 200
   lifeTime: 2
-  impactExplosion:
-    prefab: {fileID: 3164723476481158823, guid: 77d6c69c67900044b885d80497f749eb,
-      type: 3}
-    postSmokePrefab: {fileID: 0}
-    audioPrefab: {fileID: 0}
-    startSizeMin: 1
-    startSizeMax: 2
-    alwaysCreate: 0
 --- !u!114 &8863190474277785133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +290,7 @@ MonoBehaviour:
   - effectPrefab: {fileID: 3164723476481158823, guid: 77d6c69c67900044b885d80497f749eb,
       type: 3}
     audioPrefab: {fileID: 0}
-    startSizeMin: 1
-    startSizeMax: 2
+    overrideStartSize: 0
+    startSizeMin: 0
+    startSizeMax: 0
     alwaysCreate: 0
