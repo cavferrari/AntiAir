@@ -39,18 +39,7 @@ public class Ballistics : MonoBehaviour
 
     void Update()
     {
-        if (isActive)
-        {
-            if (currentPosition.y <= 0 || lifeTimer <= 0f)
-            {
-                if (currentPosition.y <= 0)
-                {
-                    visualEffect.Play();
-                }
-                isActive = false;
-                StartCoroutine(Destroy());
-            }
-        }
+        CustomUpdate();
     }
 
     void FixedUpdate()
@@ -67,12 +56,7 @@ public class Ballistics : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (isActive)
-        {
-            visualEffect.Play();
-            isActive = false;
-            StartCoroutine(Destroy());
-        }
+        CustomOnTriggerEnter();
     }
 
     public virtual void Initialize(Vector3 position, Vector3 direction, float plane)
@@ -88,7 +72,7 @@ public class Ballistics : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.AddForce(currentVelocity);
         }
-        trailRenderer.enabled = true;
+        if (trailRenderer) trailRenderer.enabled = true;
         isActive = true;
     }
 
@@ -109,7 +93,7 @@ public class Ballistics : MonoBehaviour
             rb.isKinematic = true;
         }
         meshRenderer.enabled = false;
-        trailRenderer.enabled = false;
+        if (trailRenderer) trailRenderer.enabled = false;
         while (visualEffect.IsAlive())
         {
             yield return null;
@@ -129,6 +113,32 @@ public class Ballistics : MonoBehaviour
         }
     } */
 
+    protected virtual void CustomUpdate()
+    {
+        if (isActive)
+        {
+            if (currentPosition.y <= 0 || lifeTimer <= 0f)
+            {
+                if (currentPosition.y <= 0)
+                {
+                    visualEffect.Play();
+                }
+                isActive = false;
+                StartCoroutine(Destroy());
+            }
+        }
+    }
+
+    protected virtual void CustomOnTriggerEnter()
+    {
+        if (isActive)
+        {
+            visualEffect.Play();
+            isActive = false;
+            StartCoroutine(Destroy());
+        }
+    }
+
     protected virtual void CustomStart()
     {
     }
@@ -142,6 +152,6 @@ public class Ballistics : MonoBehaviour
         poolParent = this.transform.parent;
         ballisticData = this.GetComponent<BallisticData>();
         if (rb != null) rb.isKinematic = true;
-        trailRenderer.enabled = false;
+        if (trailRenderer) trailRenderer.enabled = false;
     }
 }

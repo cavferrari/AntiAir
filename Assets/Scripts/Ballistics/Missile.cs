@@ -40,7 +40,6 @@ public class Missile : MonoBehaviour
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
     private VFXEffect visualEffect;
-    private TrailRenderer trailRenderer;
     private Vector3 launchVelocity = Vector3.zero;
     private float launchTime = 0.0f;
     private float activateTime = 0.0f;
@@ -63,8 +62,6 @@ public class Missile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         meshRenderer = this.GetComponent<MeshRenderer>();
         visualEffect = this.GetComponent<VFXEffect>();
-        trailRenderer = this.GetComponentInChildren<TrailRenderer>();
-        trailRenderer.enabled = false;
         poolParent = this.transform.parent;
     }
 
@@ -106,7 +103,9 @@ public class Missile : MonoBehaviour
         // Prevent missile from exploding if it hasn't activated yet.
         if (isLaunched && TimeSince(launchTime) > dropDelay)
         {
-            visualEffect.Play();
+            visualEffect.Stop(0);
+            visualEffect.Play(1);
+            visualEffect.Play(2);
             // This is a good place to apply damage based on what was collided with.
             StartCoroutine(Destroy());
         }
@@ -138,7 +137,6 @@ public class Missile : MonoBehaviour
             transform.parent = poolParent;
             target = newTarget;
             launchVelocity = inheritedVelocity;
-            trailRenderer.enabled = true;
             rb.isKinematic = false;
             if (dropDelay > 0.0f)
             {
@@ -147,6 +145,7 @@ public class Missile : MonoBehaviour
             }
             else
             {
+                visualEffect.Play(0);
                 ActivateMissile();
             }
         }
@@ -191,9 +190,11 @@ public class Missile : MonoBehaviour
             }
             if (this.transform.position.y <= 0f || TimeSince(launchTime) > timeToLive)
             {
+                visualEffect.Stop(0);
                 if (this.transform.position.y <= 0f)
                 {
-                    visualEffect.Play();
+                    visualEffect.Play(1);
+                    visualEffect.Play(2);
                 }
                 StartCoroutine(Destroy());
             }
@@ -299,7 +300,6 @@ public class Missile : MonoBehaviour
             rb.isKinematic = true;
         }
         meshRenderer.enabled = false;
-        trailRenderer.enabled = false;
         while (visualEffect.IsAlive())
         {
             yield return null;
