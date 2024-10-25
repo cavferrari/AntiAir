@@ -157,8 +157,8 @@ MonoBehaviour:
   overrideInitialSpeed: 1
   initialSpeed: 0
   motorLifetime: 3
-  acceleration: 15
-  turnRate: 30
+  acceleration: 20
+  turnRate: 60
   timeToLive: 10
   dropDelay: 0
   ejectVelocity: {x: 0, y: 0, z: 0}
