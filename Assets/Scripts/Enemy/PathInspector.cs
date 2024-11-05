@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Path), true)]
+[CustomEditor(typeof(FlyPath), true)]
 [InitializeOnLoad]
 public class PathInspector : Editor
 {
@@ -10,45 +10,45 @@ public class PathInspector : Editor
     }
 
     [DrawGizmo(GizmoType.InSelectionHierarchy | GizmoType.NotInSelectionHierarchy)]
-    static void DrawHandles(Path path, GizmoType gizmoType)
+    static void DrawHandles(FlyPath flyPath, GizmoType gizmoType)
     {
         Handles.color = Color.green;
-        for (int i = 0; i < path.GetPathCount() - 1; i++)
+        for (int i = 0; i < flyPath.GetPathCount() - 1; i++)
         {
-            Handles.DrawLine(path.GetPathPoint(i), path.GetPathPoint(i + 1));
+            Handles.DrawLine(flyPath.GetPathPoint(i), flyPath.GetPathPoint(i + 1));
         }
 
         Handles.color = Color.yellow;
-        Handles.DrawLine(path.GetPathPoint(0), path.GetEntryRunPosition());
-        Handles.DrawLine(path.GetEntryRunPosition(), path.GetEndRunPosition());
-        Handles.DrawLine(path.GetEndRunPosition(), path.GetEscapePosition());
-        Handles.DrawLine(path.GetEscapePosition(), path.GetReturnPosition());
-        Handles.DrawLine(path.GetReturnPosition(), path.GetPathPoint(path.GetPathCount() - 1));
+        Handles.DrawLine(flyPath.GetPathPoint(0), flyPath.GetEntryRunPosition());
+        Handles.DrawLine(flyPath.GetEntryRunPosition(), flyPath.GetEndRunPosition());
+        Handles.DrawLine(flyPath.GetEndRunPosition(), flyPath.GetEscapePosition());
+        Handles.DrawLine(flyPath.GetEscapePosition(), flyPath.GetReturnPosition());
+        Handles.DrawLine(flyPath.GetReturnPosition(), flyPath.GetPathPoint(flyPath.GetPathCount() - 1));
 
         Gizmos.color = Color.green;
-        for (int i = 0; i < path.GetPathCount(); i++)
+        for (int i = 0; i < flyPath.GetPathCount(); i++)
         {
-            Gizmos.DrawSphere(path.GetPathPoint(i), 0.5f);
+            Gizmos.DrawSphere(flyPath.GetPathPoint(i), 0.5f);
         }
 
-        if (path.GetPathCount() != 0)
+        if (flyPath.GetPathCount() != 0)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(path.GetEntryRunRollPosition(), 1f);
-            Gizmos.DrawSphere(path.GetEndRunRollPosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetEntryRunRollPosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetEndRunRollPosition(), 1f);
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(path.GetPathPoint(0), 1f);
-            Gizmos.DrawSphere(path.GetEntryRunPosition(), 1f);
-            Gizmos.DrawSphere(path.GetEndRunPosition(), 1f);
-            Gizmos.DrawSphere(path.GetEscapePosition(), 1f);
-            Gizmos.DrawSphere(path.GetReturnPosition(), 1f);
-            Gizmos.DrawSphere(path.GetPathPoint(path.GetPathCount() - 1), 1f);
-            Handles.Label(path.GetPathPoint(0), "Start Position");
-            Handles.Label(path.GetEntryRunPosition(), "Entry Run Position");
-            Handles.Label(path.GetEndRunPosition(), "End Run Position");
-            Handles.Label(path.GetEscapePosition(), "Escape Position");
-            Handles.Label(path.GetReturnPosition(), "Return Position");
-            Handles.Label(path.GetPathPoint(path.GetPathCount() - 1), "Finish Position");
+            Gizmos.DrawSphere(flyPath.GetPathPoint(0), 1f);
+            Gizmos.DrawSphere(flyPath.GetEntryRunPosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetEndRunPosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetEscapePosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetReturnPosition(), 1f);
+            Gizmos.DrawSphere(flyPath.GetPathPoint(flyPath.GetPathCount() - 1), 1f);
+            Handles.Label(flyPath.GetPathPoint(0), "Start Position");
+            Handles.Label(flyPath.GetEntryRunPosition(), "Entry Run Position");
+            Handles.Label(flyPath.GetEndRunPosition(), "End Run Position");
+            Handles.Label(flyPath.GetEscapePosition(), "Escape Position");
+            Handles.Label(flyPath.GetReturnPosition(), "Return Position");
+            Handles.Label(flyPath.GetPathPoint(flyPath.GetPathCount() - 1), "Finish Position");
         }
     }
 }

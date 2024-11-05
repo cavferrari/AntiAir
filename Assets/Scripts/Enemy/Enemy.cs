@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     protected MeshRenderer meshRenderer;
     private TrailRenderer trailRenderer;
     protected VFXEffect visualEffect;
-    private Path path;
+    private FlyPath flyPath;
     private EnemyFireControl enemyFireControl;
     private Quaternion targetRotation;
     private Vector3 direction;
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
         meshRenderer = this.GetComponent<MeshRenderer>();
         trailRenderer = this.GetComponentInChildren<TrailRenderer>();
         visualEffect = this.GetComponentInChildren<VFXEffect>();
-        path = this.GetComponent<Path>();
+        flyPath = this.GetComponent<FlyPath>();
         enemyFireControl = this.GetComponent<EnemyFireControl>();
     }
 
@@ -44,14 +44,14 @@ public class Enemy : MonoBehaviour
     {
         if (isActive && !isDestroyed)
         {
-            if (path.GetPathCount() != 0 && indexCount < path.GetPathCount())
+            if (flyPath.GetPathCount() != 0 && indexCount < flyPath.GetPathCount())
             {
                 UpdatePitch();
                 UpdateYaw();
-                this.transform.position = Vector3.MoveTowards(this.transform.position, path.GetPathPoint(indexCount), speed * Time.deltaTime);
-                if (Vector3.Distance(this.transform.position, path.GetPathPoint(indexCount)) < 0.001f)
+                this.transform.position = Vector3.MoveTowards(this.transform.position, flyPath.GetPathPoint(indexCount), speed * Time.deltaTime);
+                if (Vector3.Distance(this.transform.position, flyPath.GetPathPoint(indexCount)) < 0.001f)
                 {
-                    this.transform.position = path.GetPathPoint(indexCount);
+                    this.transform.position = flyPath.GetPathPoint(indexCount);
                     indexCount += 1;
                 }
                 UpdateFire();
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 currentTargetPosition = GetNewTarget();
-                path.GeneratePath(this.transform.position, currentTargetPosition, rollEntryDistance, rollEndDistance);
+                flyPath.GeneratePath(this.transform.position, currentTargetPosition, rollEntryDistance, rollEndDistance);
                 indexCount = 0;
             }
             zAxisRotation = this.transform.rotation.eulerAngles.z;
@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour
 
     public void Initialize()
     {
-        path.Reset();
+        flyPath.Reset();
         enemyFireControl.Reset();
         speed = maxSpeed;
         currentTargetPosition = Vector3.zero;
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
 
     private void UpdatePitch()
     {
-        direction = path.GetPathPoint(indexCount) - this.transform.position;
+        direction = flyPath.GetPathPoint(indexCount) - this.transform.position;
         if (direction != Vector3.zero)
         {
             targetRotation = Quaternion.LookRotation(direction, up);
@@ -123,12 +123,12 @@ public class Enemy : MonoBehaviour
 
     private void UpdateYaw()
     {
-        if (path.IsTurningDown(this.transform.position))
+        if (flyPath.IsTurningDown(this.transform.position))
         {
             isAttacking = true;
             StartCoroutine(SpinRight(rotationPauseTime));
         }
-        if (path.IsTurningUp(this.transform.position))
+        if (flyPath.IsTurningUp(this.transform.position))
         {
             isAttacking = false;
             StartCoroutine(SpinLeft(rotationPauseTime));
@@ -193,7 +193,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         while (elapsedTime < time)
         {
-            if (path.GetOrientation() == 1)
+            if (flyPath.GetOrientation() == 1)
             {
                 if (this.transform.rotation.eulerAngles.z > 180f && this.transform.rotation.eulerAngles.z <= 270f)
                 {
@@ -241,7 +241,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         while (elapsedTime < time)
         {
-            if (path.GetOrientation() == 1)
+            if (flyPath.GetOrientation() == 1)
             {
                 if (this.transform.rotation.eulerAngles.z > 0f && this.transform.rotation.eulerAngles.z <= 90f)
                 {
@@ -293,7 +293,7 @@ public class Enemy : MonoBehaviour
         enemyFireControl.SetFire(false);
         rb.isKinematic = false;
         trailRenderer.enabled = false;
-        rb.AddForce(4f * speed * (path.GetPathPoint(indexCount) - this.transform.position).normalized);
+        rb.AddForce(4f * speed * (flyPath.GetPathPoint(indexCount) - this.transform.position).normalized);
         float elapsedTime = 0f;
         float time = 10f;
         float xAxis = Random.Range(0f, 15f);

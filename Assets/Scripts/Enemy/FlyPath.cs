@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Path : MonoBehaviour
+public class FlyPath : MonoBehaviour
 {
     public float entryRunCurveRadius = 50f;
     public float endRunCurveRadius = 100f;
