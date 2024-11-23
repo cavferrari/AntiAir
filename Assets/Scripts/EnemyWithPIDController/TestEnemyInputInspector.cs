@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(TestEnemyInput), true)]
 [InitializeOnLoad]
 public class TestEnemyInputInspector : Editor
@@ -24,3 +26,4 @@ public class TestEnemyInputInspector : Editor
         }
     }
 }
+#endif

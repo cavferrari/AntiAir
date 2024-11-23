@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(FlyPath), true)]
 [InitializeOnLoad]
 public class PathInspector : Editor
@@ -52,3 +53,4 @@ public class PathInspector : Editor
         }
     }
 }
+#endif
